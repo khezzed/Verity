@@ -2,7 +2,7 @@
   "project": "Verity",
   "tagline": "Risk-Limiting Sequential Audit Protocol (Wald SPRT) for Citation & Claim Grounding on GenLayer",
   "generatedAt": "2026-11-19T22:46:24.021Z",
-  "sourceCommit": "pending-initial-commit",
+  "sourceCommit": "e6a6a9d98dbaf3647403b89481f7becd709d306f",
   "network": {
     "name": "GenLayer StudioNet",
     "chainId": 61999,

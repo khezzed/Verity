@@ -3,7 +3,8 @@
 > **On-chain Wald Sequential Probability Ratio Test (SPRT) for batch factual citation grounding.**  
 > Plain deterministic code runs commit-reveal Fisher-Yates sampling, scaled-integer SPRT early stopping, bond escrow, and conservation accounting. GenLayer LLM validators make strictly narrow one-claim-per-transaction judgments against bounded immutable third-party slices, verifying verbatim quotes in their own copy and settling strictly via `emit(on="finalized")`.
 
-**Live Web App:** [`https://verity-rla.vercel.app`](https://verity-rla.vercel.app) *(disable Vercel Deployment Protection if enabled for public reviewer access)*  
+**Live Web App:** [`https://verity-rla.vercel.app`](https://verity-rla.vercel.app)  
+**Public Repository:** [`https://github.com/khezzed/Verity`](https://github.com/khezzed/Verity)  
 **Network:** GenLayer StudioNet (Chain ID `61999`, RPC `https://studio.genlayer.com/api`)  
 **Pinned Runner:** `py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6`  
 **`VerityAuditVault` (Deterministic):** [`0x470e9e6B51F2C1dB9Bb6db414716622E05BFE6eD`](https://explorer-studio.genlayer.com/address/0x470e9e6B51F2C1dB9Bb6db414716622E05BFE6eD)  

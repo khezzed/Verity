@@ -30,5 +30,5 @@ Verity brings Risk-Limiting Statistical Audits (Abraham Wald's Sequential Probab
 - **`VerityAuditVault` (Deterministic Vault & SPRT Engine):** https://explorer-studio.genlayer.com/address/0x470e9e6B51F2C1dB9Bb6db414716622E05BFE6eD
 - **`VerityCitationJudge` (Stateless Narrow LLM Oracle):** https://explorer-studio.genlayer.com/address/0x24a968830FDdd1b3476a3E96BB6b3A379E85De1d
 - **`EvidenceProbe` (Step 2 Pre-Flight Network Probe):** https://explorer-studio.genlayer.com/address/0xEf1524f83d1BcabF525f360Fbd77Fcd9d99fc18C
-- **Public Repository:** https://github.com/khezzed/Verity *(push local git repo when ready)*
-- **Live Frontend URL:** https://verity-rla.vercel.app *(disable Vercel Deployment Protection for public reviewer access)*
+- **Public Repository:** https://github.com/khezzed/Verity
+- **Live Frontend URL:** https://verity-rla.vercel.app
