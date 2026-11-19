@@ -1,0 +1,173 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "probeAddress": "0xEf1524f83d1BcabF525f360Fbd77Fcd9d99fc18C",
+  "probeDeployTx": "0x942cd58973cb854f558120c836d9acbac6b026203d0d1702586c89092d2b92b8",
+  "probeSourceSha256": "10242e713e52af45a190e9dcb67fc056ec9fb3f66f80bcee313df7bc5236a0fe",
+  "probeBlobSha1": "d3cbca24d66c94c71b79264d72ee210321841ef8",
+  "callbackProbe": {
+    "txHash": "0xd87c2c21f156c1a90835af9c3b3eadea6a092adc8f2ccaa9d657b52f4554fa8e",
+    "finalized": true,
+    "parentStatus": "FINALIZED",
+    "childCount": 1,
+    "childHashes": [
+      "0x28b7a9f4a8fa07beb93910546e27a940f1ce05849097d012d94392fa71974b51"
+    ],
+    "cbStatus": "FINALIZED_OK"
+  },
+  "payableRefundProbe": {
+    "txHash": "0xd422e975a6e80103fa55c753a6bb7c2f5a83fa91771a7e9f993295f82c464315",
+    "finalized": true,
+    "parentStatus": "FINALIZED",
+    "parentExec": "SUCCESS",
+    "childCount": 1,
+    "summary": {
+      "balance": 0,
+      "probe_count": 0,
+      "refund_count": 1
+    }
+  },
+  "probedAt": "2026-11-19T20:10:33.160Z",
+  "results": {
+    "rfc_2104": {
+      "txHash": "0xe091d7d8e00eb5b0eb38a656c3f10f69b316014d620a243e955be4ed0ab9b7c4",
+      "url": "https://www.rfc-editor.org/rfc/rfc2104.txt",
+      "anchor": "0x36",
+      "note": "IETF RFC 2104 (HMAC, 1997)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "rfc_2104",
+        "preview": "sh outputs (L=16 for MD5, L=20 for\n   SHA-1).  The authentication key K can be of any length up to B, the\n   block length of the hash function.  Applications that use keys longer\n ",
+        "slice_len": 2200,
+        "slice_sha256": "5b91dd74d16ef49402215f8054d53d18c546d440ea22b8eae7fbf373441845b9",
+        "status": 200,
+        "total_len": 22297
+      },
+      "stderr": ""
+    },
+    "rfc_8259": {
+      "txHash": "0x7d0cabb2ed2342b03ac989d36f4e8a87a78bac97c6c3540de8c70009987fc21e",
+      "url": "https://www.rfc-editor.org/rfc/rfc8259.txt",
+      "anchor": "UTF-8",
+      "note": "IETF RFC 8259 (JSON, 2017)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "rfc_8259",
+        "preview": "  U+0008\n              %x66 /          ; f    form feed       U+000C\n              %x6E /          ; n    line feed       U+000A\n              %x72 /          ; r    carriage retur",
+        "slice_len": 2200,
+        "slice_sha256": "b59a81856f8497973b3950c494d35bd816a964ca417eaf3dc06fa0cd3e192560",
+        "status": 200,
+        "total_len": 28360
+      },
+      "stderr": ""
+    },
+    "rfc_6962": {
+      "txHash": "0xb7b00cb36d9a778fe568cac96c8b50ec00502dc3be134e123c6539444ec599ba",
+      "url": "https://www.rfc-editor.org/rfc/rfc6962.txt",
+      "anchor": "SHA-256",
+      "note": "IETF RFC 6962 (Certificate Transparency, 2013)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "rfc_6962",
+        "preview": " they then don't log) can be efficiently\n   detected and proved to the world at large.\n\n1.1.  Requirements Language\n\n   The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", \"SHAL",
+        "slice_len": 2200,
+        "slice_sha256": "6cc8a1f25bc4b795be6f6d41ff2a98cc4ac4a16b274f2273ac67e29979fe6f0d",
+        "status": 200,
+        "total_len": 55048
+      },
+      "stderr": ""
+    },
+    "wiki_merkle_2009": {
+      "txHash": "0x5f1a1fbce03a062ea219c2d75d4c5c9b3922835263016549f5c0c9439cb253b9",
+      "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&formatversion=2&revids=333954216",
+      "anchor": "hash tree",
+      "note": "Wikipedia Permanent Revision 333954216 (Merkle tree, Dec 2009)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "wiki_merkle_2009",
+        "preview": "[[Image:Hash tree.png|thumb|300px|right|A binary hash tree]]\n\nIn [[cryptography]] and [[computer science]] '''Hash trees''' or '''Merkle trees''' are a type of [[data structure]] w",
+        "slice_len": 2200,
+        "slice_sha256": "501a0a5b13c4d3daf5be82fc0f18ee1f1d37da76388d63b874be25a4fc51fc9a",
+        "status": 200,
+        "total_len": 6236
+      },
+      "stderr": ""
+    },
+    "github_prompt_injection": {
+      "txHash": "0xd0f8fb55f6ff42958eca77d447ae04be076fb40d2b48f6a31529d49cbbdc48a9",
+      "url": "https://raw.githubusercontent.com/liu00222/Open-Prompt-Injection/fbed5cca347488f88363790ae3ae97c56116da6a/OpenPromptInjection/attackers/IgnoreAttacker.py",
+      "anchor": "Ignore",
+      "note": "Third-party pinned GitHub commit containing real prompt-injection payload",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "github_prompt_injection",
+        "preview": "from .Attacker import Attacker\n\nclass IgnoreAttacker(Attacker):\n    def __init__(self, config, task):\n        super().__init__(config, task)\n\n    def inject(self, clean_data, idx, ",
+        "slice_len": 849,
+        "slice_sha256": "2d2ea0a04dc91b3fa8d23af9018ef64b017a3f0e6d073bd8e5c997e81d69d227",
+        "status": 200,
+        "total_len": 849
+      },
+      "stderr": ""
+    },
+    "archive_hashcash_2004": {
+      "txHash": "0x8cd243d8ffcc44183c3a874113743f9f4a30cd152f8befaf8a280c05c2f4aa7a",
+      "url": "https://web.archive.org/web/20040326113623id_/http://www.hashcash.org/faq/",
+      "anchor": "hashcash",
+      "note": "Archive.org raw id_ capture (Hashcash FAQ, 2004-03-26)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "archive_hashcash_2004",
+        "preview": "\n<html>\n<head>\n<title>Hashcash FAQ</title>\n</head>\n<body>\n\n<table width=\"100%\" border=\"0\">\n<tr valign=\"top\">\n<td>\n<table>\n<tr><td nowrap align=\"center\"><tt>hashcash.org</tt></td></",
+        "slice_len": 2200,
+        "slice_sha256": "73699dc7b0424dd6ab4e6c1cb204408318cd1994339ed6fef0d8766edaf23758",
+        "status": 200,
+        "total_len": 44242
+      },
+      "stderr": ""
+    },
+    "archive_hashcash_cdx": {
+      "txHash": "0xeec25635697f33d4f60752dc7c19d968b1508e4d281b9dec6ef4f0803e6ecc49",
+      "url": "https://web.archive.org/cdx/search/cdx?url=http://www.hashcash.org/faq/&output=json&filter=timestamp:20040326113623",
+      "anchor": "20040326113623",
+      "note": "Archive.org CDX capture existence index",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "archive_hashcash_cdx",
+        "preview": "[[\"urlkey\",\"timestamp\",\"original\",\"mimetype\",\"statuscode\",\"digest\",\"length\"],\n[\"org,hashcash)/faq\",\"20040326113623\",\"http://www.hashcash.org:80/faq/\",\"text/html\",\"200\",\"OUGCC4JMBBS",
+        "slice_len": 213,
+        "slice_sha256": "9fe64865e123776312b46c76fc49cc0ad5c0f45d4f887a9b564b93b03106bb9c",
+        "status": 200,
+        "total_len": 213
+      },
+      "stderr": ""
+    }
+  }
+}

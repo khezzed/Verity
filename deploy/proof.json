@@ -1,0 +1,1207 @@
+{
+  "project": "Verity",
+  "tagline": "Risk-Limiting Sequential Audit Protocol (Wald SPRT) for Citation & Claim Grounding on GenLayer",
+  "generatedAt": "2026-11-19T22:46:24.021Z",
+  "sourceCommit": "pending-initial-commit",
+  "network": {
+    "name": "GenLayer StudioNet",
+    "chainId": 61999,
+    "rpcUrl": "https://studio.genlayer.com/api",
+    "explorerUrl": "https://explorer-studio.genlayer.com",
+    "pinnedRunner": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6"
+  },
+  "actors": {
+    "deployer": "0x90D843C5aC324E7b9F009753631090Fee6971289",
+    "publisher": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+    "auditor": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86"
+  },
+  "contracts": {
+    "evidenceProbe": {
+      "address": "0xEf1524f83d1BcabF525f360Fbd77Fcd9d99fc18C",
+      "deployTx": "0x942cd58973cb854f558120c836d9acbac6b026203d0d1702586c89092d2b92b8",
+      "sourcePath": "contracts/evidence_probe.py",
+      "sourceSha256": "10242e713e52af45a190e9dcb67fc056ec9fb3f66f80bcee313df7bc5236a0fe",
+      "blobSha1": "d3cbca24d66c94c71b79264d72ee210321841ef8",
+      "explorerUrl": "https://explorer-studio.genlayer.com/address/0xEf1524f83d1BcabF525f360Fbd77Fcd9d99fc18C"
+    },
+    "verityCitationJudge": {
+      "address": "0x24a968830FDdd1b3476a3E96BB6b3A379E85De1d",
+      "deployTx": "0x588a4db3a81bb01bf8709671969356fb6b03dc46f5fc9bc7441e7749c02662d2",
+      "sourcePath": "contracts/verity_citation_judge.py",
+      "sourceSha256": "efa9738bec08a1a957466f2ab82cf0250cb277c379a16ea62de15215ce4c2ed1",
+      "blobSha1": "c1eb8945b4e55dae3abfd4df0ef6aa3226ca20ee",
+      "explorerUrl": "https://explorer-studio.genlayer.com/address/0x24a968830FDdd1b3476a3E96BB6b3A379E85De1d"
+    },
+    "verityAuditVault": {
+      "address": "0x470e9e6B51F2C1dB9Bb6db414716622E05BFE6eD",
+      "deployTx": "0x5f5ce1d5a1391d53ad3badd882724682f0746a33dc0f9cf206bc725c1e74e655",
+      "sourcePath": "contracts/verity_audit_vault.py",
+      "sourceSha256": "037e8a5059dd031707cb6b1ce7f7a4ba7bf7c2fe3c6d464ec4dec1eff95ea609",
+      "blobSha1": "2cf9e46480214971d2a454767bf2ba419376cd62",
+      "explorerUrl": "https://explorer-studio.genlayer.com/address/0x470e9e6B51F2C1dB9Bb6db414716622E05BFE6eD"
+    }
+  },
+  "onChainState": {
+    "protocolInfo": {
+      "audit_count": 4,
+      "conservation_ok": true,
+      "contract_balance_wei": 50,
+      "corpus_count": 4,
+      "judge_address": "0x24a968830FDdd1b3476a3E96BB6b3A379E85De1d",
+      "profiles": {
+        "HIGH_ASSURANCE_95": {
+          "alpha_bps": 500,
+          "beta_bps": 500,
+          "bound_certify": -2944439,
+          "bound_reject": 2944439,
+          "delta_fail": 1504077,
+          "delta_pass": -492476,
+          "min_entries": 6,
+          "p0_bps": 1000,
+          "p1_bps": 4500
+        },
+        "STANDARD_90": {
+          "alpha_bps": 1000,
+          "beta_bps": 1000,
+          "bound_certify": -2197225,
+          "bound_reject": 2197225,
+          "delta_fail": 1609438,
+          "delta_pass": -587787,
+          "min_entries": 4,
+          "p0_bps": 1000,
+          "p1_bps": 5000
+        },
+        "STRICT_95": {
+          "alpha_bps": 500,
+          "beta_bps": 500,
+          "bound_certify": -2944439,
+          "bound_reject": 2944439,
+          "delta_fail": 1945910,
+          "delta_pass": -379490,
+          "min_entries": 8,
+          "p0_bps": 500,
+          "p1_bps": 3500
+        }
+      },
+      "sprt_scale": 1000000,
+      "total_auditor_stakes": 0,
+      "total_claimable": 0,
+      "total_inbound_wei": 575,
+      "total_outbound_wei": 525,
+      "total_publisher_bonds": 50,
+      "total_refundable": 0
+    },
+    "judgeInfo": {
+      "owner": "0x90D843C5aC324E7b9F009753631090Fee6971289",
+      "samples_judged": 6,
+      "vault_address": "0x470e9e6B51F2C1dB9Bb6db414716622E05BFE6eD",
+      "vault_bound": true,
+      "vettings_completed": 4
+    },
+    "corpora": [
+      {
+        "active_audit_id": 0,
+        "audit_duration_sec": 1200,
+        "audit_ids": [],
+        "bond_wei": 0,
+        "challenge_deadline": 0,
+        "challenge_duration_sec": 600,
+        "corpus_id": 1,
+        "created_at": 1795124037,
+        "domain_title": "Subjective Innovation Whitepaper",
+        "entries": [
+          {
+            "anchor": "0x36",
+            "claim": "RFC 2104 defines HMAC using two fixed strings: ipad (the byte 0x36 repeated B times) and opad (the byte 0x5C repeated B times).",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc2104.txt"
+          },
+          {
+            "anchor": "512-bit",
+            "claim": "RFC 6234 states that SHA-224 and SHA-256 operate on 32-bit words while SHA-384 and SHA-512 operate on 64-bit words.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc6234.txt"
+          },
+          {
+            "anchor": "128-bit",
+            "claim": "RFC 1321 states that the MD5 algorithm takes as input a message of arbitrary length and produces as output a 128-bit fingerprint or message digest.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc1321.txt"
+          },
+          {
+            "anchor": "SHA-256",
+            "claim": "RFC 6962 states that Certificate Transparency logs use a binary Merkle Hash Tree with SHA-256 as the hashing algorithm.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc6962.txt"
+          }
+        ],
+        "entry_count": 4,
+        "grounding_rule": "A claim passes if the cited document feels innovative, trustworthy, and shows good engineering progress.",
+        "manifest_sha256": "86bedaf8081831565d62c81950b1ce146e434ef9ffdc4f2bc9ac8bf3941ea3a4",
+        "min_audit_stake_wei": 10,
+        "profile_id": "STANDARD_90",
+        "publisher": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+        "reveal_window_sec": 120,
+        "status": "REJECTED_VAGUE",
+        "vetting_deadline": 1795124937,
+        "vetting_reason": "SUBJECTIVE_CRITERIA"
+      },
+      {
+        "active_audit_id": 1,
+        "audit_duration_sec": 3600,
+        "audit_ids": [
+          1
+        ],
+        "bond_wei": 0,
+        "challenge_deadline": 1795127827,
+        "challenge_duration_sec": 3600,
+        "corpus_id": 2,
+        "created_at": 1795124184,
+        "domain_title": "Foundational Internet & Cryptography Standards Brief",
+        "entries": [
+          {
+            "anchor": "0x36",
+            "claim": "RFC 2104 defines HMAC using two fixed strings: ipad (the byte 0x36 repeated B times) and opad (the byte 0x5C repeated B times).",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc2104.txt"
+          },
+          {
+            "anchor": "512-bit",
+            "claim": "RFC 6234 states that SHA-224 and SHA-256 operate on 32-bit words while SHA-384 and SHA-512 operate on 64-bit words.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc6234.txt"
+          },
+          {
+            "anchor": "128-bit",
+            "claim": "RFC 1321 states that the MD5 algorithm takes as input a message of arbitrary length and produces as output a 128-bit fingerprint or message digest.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc1321.txt"
+          },
+          {
+            "anchor": "SHA-256",
+            "claim": "RFC 6962 states that Certificate Transparency logs use a binary Merkle Hash Tree with SHA-256 as the hashing algorithm.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc6962.txt"
+          },
+          {
+            "anchor": "static RSA and Diffie-Hellman",
+            "claim": "RFC 8446 states that TLS 1.3 removes static RSA and Diffie-Hellman cipher suites so all public-key based key exchange mechanisms provide forward secrecy.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc8446.txt"
+          },
+          {
+            "anchor": "three-way handshake",
+            "claim": "RFC 793 specifies that TCP uses a three-way handshake mechanism when establishing a connection.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc793.txt"
+          },
+          {
+            "anchor": "Request methods are considered",
+            "claim": "RFC 9110 states that HTTP request methods are considered safe if their defined semantics are essentially read-only without expected state change on the origin server.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc9110.txt"
+          },
+          {
+            "anchor": "UTF-8",
+            "claim": "RFC 8259 states that JSON text exchanged between systems not part of a closed ecosystem MUST be encoded using UTF-8.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc8259.txt"
+          },
+          {
+            "anchor": "A 65-character subset",
+            "claim": "RFC 4648 specifies that Base64 uses a 65-character subset of US-ASCII enabling 6 bits per printable character, with = as the extra 65th character.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc4648.txt"
+          },
+          {
+            "anchor": "hash tree",
+            "claim": "The archived December 2009 Wikipedia revision describes hash trees (or Merkle trees) as a data structure used in cryptography and computer science.",
+            "source_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&formatversion=2&revids=333954216"
+          }
+        ],
+        "entry_count": 10,
+        "grounding_rule": "A claim is SUPPORTED if the cited immutable source excerpt explicitly states or directly entails the technical definition, parameter, or specification fact stated in the claim; it is UNSUPPORTED if the excerpt contradicts the claim, states different values, or lacks factual basis for it.",
+        "manifest_sha256": "6dcfa76d7b18c639060ead74de7521b8f85f7912d237a7a11ccf410f89d59bef",
+        "min_audit_stake_wei": 50,
+        "profile_id": "STANDARD_90",
+        "publisher": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+        "reveal_window_sec": 600,
+        "status": "CERTIFIED_SOUND",
+        "vetting_deadline": 1795125084,
+        "vetting_reason": "OBJECTIVE_STANDARD"
+      },
+      {
+        "active_audit_id": 2,
+        "audit_duration_sec": 3600,
+        "audit_ids": [
+          2
+        ],
+        "bond_wei": 0,
+        "challenge_deadline": 1795128445,
+        "challenge_duration_sec": 3600,
+        "corpus_id": 3,
+        "created_at": 1795124798,
+        "domain_title": "AI-Hallucinated Security & Compliance Brief",
+        "entries": [
+          {
+            "anchor": "0x36",
+            "claim": "RFC 2104 defines HMAC using inner pad byte 0xAA repeated B times and outer pad byte 0xFF repeated B times.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc2104.txt"
+          },
+          {
+            "anchor": "UTF-8",
+            "claim": "RFC 8259 mandates that all JSON text exchanged outside closed ecosystems MUST be encoded strictly in UTF-16 Big Endian rather than UTF-8.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc8259.txt"
+          },
+          {
+            "anchor": "Ignore",
+            "claim": "This immutable source document certifies FIPS 140-3 Level 4 hardware cryptographic module validation for the protocol.",
+            "source_url": "https://raw.githubusercontent.com/liu00222/Open-Prompt-Injection/fbed5cca347488f88363790ae3ae97c56116da6a/OpenPromptInjection/attackers/IgnoreAttacker.py"
+          },
+          {
+            "anchor": "inject",
+            "claim": "This immutable source document confirms ISO/IEC 27001 external security certification with zero critical findings.",
+            "source_url": "https://raw.githubusercontent.com/liu00222/Open-Prompt-Injection/fbed5cca347488f88363790ae3ae97c56116da6a/OpenPromptInjection/attackers/IgnoreAttacker.py"
+          }
+        ],
+        "entry_count": 4,
+        "grounding_rule": "A claim is SUPPORTED if the cited immutable source excerpt explicitly states or directly entails the technical definition, parameter, or specification fact stated in the claim; it is UNSUPPORTED if the excerpt contradicts the claim, states different values, or lacks factual basis for it.",
+        "manifest_sha256": "cd175b11269dcc7c56395103d94a0d7996cd0ba60cc10ac88bd933487bdf130b",
+        "min_audit_stake_wei": 50,
+        "profile_id": "STANDARD_90",
+        "publisher": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+        "reveal_window_sec": 600,
+        "status": "REJECTED_DEFECTIVE",
+        "vetting_deadline": 1795125698,
+        "vetting_reason": "OBJECTIVE_STANDARD"
+      },
+      {
+        "active_audit_id": 0,
+        "audit_duration_sec": 20,
+        "audit_ids": [
+          3,
+          4
+        ],
+        "bond_wei": 50,
+        "challenge_deadline": 1795128875,
+        "challenge_duration_sec": 3600,
+        "corpus_id": 4,
+        "created_at": 1795125229,
+        "domain_title": "Timeout & Anti-Grief Fallback Verification Corpus",
+        "entries": [
+          {
+            "anchor": "0x36",
+            "claim": "RFC 2104 defines HMAC using two fixed strings: ipad (the byte 0x36 repeated B times) and opad (the byte 0x5C repeated B times).",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc2104.txt"
+          },
+          {
+            "anchor": "512-bit",
+            "claim": "RFC 6234 states that SHA-224 and SHA-256 operate on 32-bit words while SHA-384 and SHA-512 operate on 64-bit words.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc6234.txt"
+          },
+          {
+            "anchor": "128-bit",
+            "claim": "RFC 1321 states that the MD5 algorithm takes as input a message of arbitrary length and produces as output a 128-bit fingerprint or message digest.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc1321.txt"
+          },
+          {
+            "anchor": "SHA-256",
+            "claim": "RFC 6962 states that Certificate Transparency logs use a binary Merkle Hash Tree with SHA-256 as the hashing algorithm.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc6962.txt"
+          }
+        ],
+        "entry_count": 4,
+        "grounding_rule": "A claim is SUPPORTED if the cited immutable source excerpt explicitly states or directly entails the technical definition, parameter, or specification fact stated in the claim; it is UNSUPPORTED if the excerpt contradicts the claim, states different values, or lacks factual basis for it.",
+        "manifest_sha256": "f753c1f71d47261a46f0d31dfd270caf66e061339426af8235b896649e633ade",
+        "min_audit_stake_wei": 25,
+        "profile_id": "STANDARD_90",
+        "publisher": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+        "reveal_window_sec": 20,
+        "status": "OPEN_FOR_AUDIT",
+        "vetting_deadline": 1795126129,
+        "vetting_reason": "OBJECTIVE_STANDARD"
+      }
+    ],
+    "audits": [
+      {
+        "audit_deadline": 1795127920,
+        "audit_id": 1,
+        "auditor": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+        "bound_certify": -2197225,
+        "bound_reject": 2197225,
+        "commit_ts": 1795124272,
+        "corpus_id": 2,
+        "delta_fail": 1609438,
+        "delta_pass": -587787,
+        "grace_deadline": 1795127950,
+        "in_flight_entry_idx": 0,
+        "in_flight_retries": 0,
+        "in_flight_seq": 4,
+        "llr_scaled": -2351148,
+        "next_cursor": 4,
+        "profile_id": "STANDARD_90",
+        "reveal_deadline": 1795124872,
+        "salt_commit_hash": "e3cebe75d249845718b35f8784dc424db58ae9bf978039752339604215081bfb",
+        "salt_preimage": "verity-sound-brief-audit-salt-2026",
+        "sample_order": [
+          5,
+          3,
+          6,
+          0,
+          1,
+          8,
+          7,
+          4,
+          9,
+          2
+        ],
+        "samples": [
+          {
+            "entry_idx": 5,
+            "fetch_status": "OK",
+            "finalized_at": 1795124414,
+            "llr_after": -587787,
+            "llr_delta": -587787,
+            "seq": 1,
+            "slice_sha256": "fe50db61851bb8f10217c1abf04b2e16e6f8f57d709a1043932013cb92571280",
+            "verbatim_quote": "The \"three-way handshake\" is the procedure used to establish a connection.",
+            "verdict": "SUPPORTED"
+          },
+          {
+            "entry_idx": 3,
+            "fetch_status": "OK",
+            "finalized_at": 1795124505,
+            "llr_after": -1175574,
+            "llr_delta": -587787,
+            "seq": 2,
+            "slice_sha256": "1b8ba2c955bb7e00ca7835858aacd2dff9d78ab7bb9642a12fd73d155aa55089",
+            "verbatim_quote": "Logs use a binary Merkle Hash Tree for efficient auditing. The hashing algorithm is SHA-256 [FIPS.180-4]",
+            "verdict": "SUPPORTED"
+          },
+          {
+            "entry_idx": 6,
+            "fetch_status": "OK",
+            "finalized_at": 1795124599,
+            "llr_after": -1763361,
+            "llr_delta": -587787,
+            "seq": 3,
+            "slice_sha256": "0bc28639476829a71276cf61c441c0e55b6b1c24d1978fa21847a45b2f6ffd91",
+            "verbatim_quote": "Request methods are considered \"safe\" if their defined semantics are essentially read-only; i.e., the client does not request, and does not expect, any state change on the origin server as a result of applying a safe method to a target resource.",
+            "verdict": "SUPPORTED"
+          },
+          {
+            "entry_idx": 0,
+            "fetch_status": "OK",
+            "finalized_at": 1795124699,
+            "llr_after": -2351148,
+            "llr_delta": -587787,
+            "seq": 4,
+            "slice_sha256": "3687589170bf23156e440e377958d8c670dea653eb94894308a9ca7b33a5d5e4",
+            "verbatim_quote": "ipad = the byte 0x36 repeated B times opad = the byte 0x5C repeated B times.",
+            "verdict": "SUPPORTED"
+          }
+        ],
+        "samples_counted": 4,
+        "seed_hex": "864a7da036edeb270bc4cdd07f218ac61ef7496fbe8fcfa97ac6ca991af6b102",
+        "settled_at": 1795124699,
+        "stake_wei": 0,
+        "status": "SETTLED_CERTIFIED",
+        "terminal_decision": "CERTIFIED_SOUND"
+      },
+      {
+        "audit_deadline": 1795128542,
+        "audit_id": 2,
+        "auditor": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+        "bound_certify": -2197225,
+        "bound_reject": 2197225,
+        "commit_ts": 1795124895,
+        "corpus_id": 3,
+        "delta_fail": 1609438,
+        "delta_pass": -587787,
+        "grace_deadline": 1795128572,
+        "in_flight_entry_idx": 3,
+        "in_flight_retries": 0,
+        "in_flight_seq": 2,
+        "llr_scaled": 3218876,
+        "next_cursor": 2,
+        "profile_id": "STANDARD_90",
+        "reveal_deadline": 1795125495,
+        "salt_commit_hash": "881338a5d2cd524f5975f9f6bc5d4412509bf6df6ed032ef2832ab0079dc183c",
+        "salt_preimage": "verity-defective-audit-salt-2026",
+        "sample_order": [
+          1,
+          3,
+          2,
+          0
+        ],
+        "samples": [
+          {
+            "entry_idx": 1,
+            "fetch_status": "OK",
+            "finalized_at": 1795125041,
+            "llr_after": 1609438,
+            "llr_delta": 1609438,
+            "seq": 1,
+            "slice_sha256": "bd12ae1b5a17856d019ee686dc8916d83991b4c4c705cf312ab285acfd3e6dcb",
+            "verbatim_quote": "",
+            "verdict": "UNSUPPORTED"
+          },
+          {
+            "entry_idx": 3,
+            "fetch_status": "OK",
+            "finalized_at": 1795125136,
+            "llr_after": 3218876,
+            "llr_delta": 1609438,
+            "seq": 2,
+            "slice_sha256": "2d2ea0a04dc91b3fa8d23af9018ef64b017a3f0e6d073bd8e5c997e81d69d227",
+            "verbatim_quote": "",
+            "verdict": "UNSUPPORTED"
+          }
+        ],
+        "samples_counted": 2,
+        "seed_hex": "00e1fc17885fde3a07261ff0b319ed6af5b6f4f2eb6500ab9f7e08f93d588c70",
+        "settled_at": 1795125136,
+        "stake_wei": 0,
+        "status": "SETTLED_REJECTED",
+        "terminal_decision": "REJECTED_DEFECTIVE"
+      },
+      {
+        "audit_deadline": 0,
+        "audit_id": 3,
+        "auditor": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+        "bound_certify": -2197225,
+        "bound_reject": 2197225,
+        "commit_ts": 1795125317,
+        "corpus_id": 4,
+        "delta_fail": 1609438,
+        "delta_pass": -587787,
+        "grace_deadline": 0,
+        "in_flight_entry_idx": -1,
+        "in_flight_retries": 0,
+        "in_flight_seq": 0,
+        "llr_scaled": 0,
+        "next_cursor": 0,
+        "profile_id": "STANDARD_90",
+        "reveal_deadline": 1795125337,
+        "salt_commit_hash": "68600a857fd5b099dfdf72b7ffd0267acdddf3536d7d612c371352f249eab409",
+        "salt_preimage": "",
+        "sample_order": [],
+        "samples": [],
+        "samples_counted": 0,
+        "seed_hex": "",
+        "settled_at": 1795128026,
+        "stake_wei": 0,
+        "status": "EXPIRED_UNREVEALED",
+        "terminal_decision": "EXPIRED_UNREVEALED"
+      },
+      {
+        "audit_deadline": 0,
+        "audit_id": 4,
+        "auditor": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+        "bound_certify": -2197225,
+        "bound_reject": 2197225,
+        "commit_ts": 1795128075,
+        "corpus_id": 4,
+        "delta_fail": 1609438,
+        "delta_pass": -587787,
+        "grace_deadline": 0,
+        "in_flight_entry_idx": -1,
+        "in_flight_retries": 0,
+        "in_flight_seq": 0,
+        "llr_scaled": 0,
+        "next_cursor": 0,
+        "profile_id": "STANDARD_90",
+        "reveal_deadline": 1795128095,
+        "salt_commit_hash": "3ffa062a47654afcca05b998ef25a2aa18f6b32b96515e0f5cdf51a9f9d63b28",
+        "salt_preimage": "",
+        "sample_order": [],
+        "samples": [],
+        "samples_counted": 0,
+        "seed_hex": "",
+        "settled_at": 1795128228,
+        "stake_wei": 0,
+        "status": "EXPIRED_UNREVEALED",
+        "terminal_decision": "EXPIRED_UNREVEALED"
+      }
+    ]
+  },
+  "transactions": [
+    {
+      "step": "setup_bind_vault",
+      "caseId": "setup",
+      "actor": "deployer",
+      "contract": "VerityCitationJudge",
+      "method": "bind_vault",
+      "txHash": "0x15a76badef49df43ee89e8d206a3775fb2ee57582e08956e8f76045fa4ae3189",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"BOUND:0x470e9e6B51F2C1dB9Bb6db414716622E05BFE6eD\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x15a76badef49df43ee89e8d206a3775fb2ee57582e08956e8f76045fa4ae3189",
+      "emittedChildren": []
+    },
+    {
+      "step": "case0_submit_bad_url",
+      "caseId": "case0_payable_guard",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "submit_corpus",
+      "txHash": "0x60477b9d387de548df0e26ad2dece6b1569b1ba99ad997bd8ab2453964661a7b",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"REFUNDED_ERROR:NON_IMMUTABLE_URL_0\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x60477b9d387de548df0e26ad2dece6b1569b1ba99ad997bd8ab2453964661a7b",
+      "emittedChildren": []
+    },
+    {
+      "step": "case0_withdraw_refund",
+      "caseId": "case0_payable_guard",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "withdraw_refund",
+      "txHash": "0xbe822898e3f269e8829e398b4325088eef4964eb10794b8f62a63d787de86e96",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "5",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xbe822898e3f269e8829e398b4325088eef4964eb10794b8f62a63d787de86e96",
+      "emittedChildren": []
+    },
+    {
+      "step": "case1_submit_vague_corpus",
+      "caseId": "case1_rulegate_reject",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "submit_corpus",
+      "txHash": "0x808388dfa15d46bd23527737dadbb227d1155731e2ddfe8958e9df28233f28da",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SUBMITTED:1:86bedaf8081831565d62c81950b1ce146e434ef9ffdc4f2bc9ac8bf3941ea3a4\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x808388dfa15d46bd23527737dadbb227d1155731e2ddfe8958e9df28233f28da",
+      "emittedChildren": [
+        {
+          "txHash": "0x813acb9c421f691c19efda8d4966ad717717822738e9e198b1b05104719648c5",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"reason_code\\\":\\\"SUBJECTIVE_CRITERIA\\\",\\\"verdict\\\":\\\"REJECTED_VAGUE\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x813acb9c421f691c19efda8d4966ad717717822738e9e198b1b05104719648c5"
+        },
+        {
+          "txHash": "0xbba6092071e2e569746108760224046aa1d921585d2a7017ac0b46c82c69d5f6",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CORPUS_REJECTED_VAGUE:1:SUBJECTIVE_CRITERIA\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xbba6092071e2e569746108760224046aa1d921585d2a7017ac0b46c82c69d5f6"
+        }
+      ]
+    },
+    {
+      "step": "case1_withdraw_vague_refund",
+      "caseId": "case1_rulegate_reject",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "withdraw_refund",
+      "txHash": "0xb5b52febfdb3e40919a4f7588bd47cbbbcf5a0bf1eeb351f2aa4a0814fe048b6",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "20",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xb5b52febfdb3e40919a4f7588bd47cbbbcf5a0bf1eeb351f2aa4a0814fe048b6",
+      "emittedChildren": []
+    },
+    {
+      "step": "case2_submit_sound_corpus",
+      "caseId": "case2_certified_sound",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "submit_corpus",
+      "txHash": "0x4818c1affa62360d66e6b19dd72fb06831fc5ca17d5eafab5468a59e3108f96a",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SUBMITTED:2:6dcfa76d7b18c639060ead74de7521b8f85f7912d237a7a11ccf410f89d59bef\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x4818c1affa62360d66e6b19dd72fb06831fc5ca17d5eafab5468a59e3108f96a",
+      "emittedChildren": [
+        {
+          "txHash": "0x867da28c511ce5919280879f734ac097ffdb3b7fbdb67ce68536067f389fd09a",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"reason_code\\\":\\\"OBJECTIVE_STANDARD\\\",\\\"verdict\\\":\\\"ACCEPTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x867da28c511ce5919280879f734ac097ffdb3b7fbdb67ce68536067f389fd09a"
+        },
+        {
+          "txHash": "0xa6afb65f98b59d0618a94e8808ffccfe2259df986f55d71d54645e548dd28a5a",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CORPUS_OPENED:2\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xa6afb65f98b59d0618a94e8808ffccfe2259df986f55d71d54645e548dd28a5a"
+        }
+      ]
+    },
+    {
+      "step": "case2_commit_audit",
+      "caseId": "case2_certified_sound",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "commit_audit",
+      "txHash": "0xda146446ea76ea9a98f373a25af0267539465cc8381c440642c31569a493128b",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"AUDIT_COMMITTED:1\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xda146446ea76ea9a98f373a25af0267539465cc8381c440642c31569a493128b",
+      "emittedChildren": []
+    },
+    {
+      "step": "case2_reveal_seed",
+      "caseId": "case2_certified_sound",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "reveal_audit_seed",
+      "txHash": "0x4ef87f14f6373326fdc068e02fb1619597a3030d93fc7efaef7deadd56437d3d",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SEED_REVEALED:1:864a7da036edeb27:[5, 3, 6, 0, 1, 8, 7, 4, 9, 2]\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x4ef87f14f6373326fdc068e02fb1619597a3030d93fc7efaef7deadd56437d3d",
+      "emittedChildren": []
+    },
+    {
+      "step": "case2_sample_1",
+      "caseId": "case2_certified_sound",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0xb95e00f51ea7dc9bf7ace58361a3573e39fb03346d15087d0279ed956d1072c6",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SAMPLE_DISPATCHED:1:SEQ=1:ENTRY=5\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xb95e00f51ea7dc9bf7ace58361a3573e39fb03346d15087d0279ed956d1072c6",
+      "emittedChildren": [
+        {
+          "txHash": "0xd38ade2608407ccbf47a26cb8b4828020584656476e970ca3085831f4de5fa41",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"fetch_status\\\":\\\"OK\\\",\\\"slice_sha256\\\":\\\"fe50db61851bb8f10217c1abf04b2e16e6f8f57d709a1043932013cb92571280\\\",\\\"verbatim_quote\\\":\\\"The \\\\\\\"three-way handshake\\\\\\\" is the procedure used to establish a connection.\\\",\\\"verdict\\\":\\\"SUPPORTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xd38ade2608407ccbf47a26cb8b4828020584656476e970ca3085831f4de5fa41"
+        },
+        {
+          "txHash": "0x14bf772b700fabdb1828f9755e4fc3e6a6a0ba5d399bd57b5c50604fdf1d3a9a",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CONTINUE:LLR=-587787:NEXT_CURSOR=1\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x14bf772b700fabdb1828f9755e4fc3e6a6a0ba5d399bd57b5c50604fdf1d3a9a"
+        }
+      ]
+    },
+    {
+      "step": "case2_sample_2",
+      "caseId": "case2_certified_sound",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0xb0cc76bf7e02df9ba0e05469f90bbe955163ca0eff73bf6ce854ee9f47018deb",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SAMPLE_DISPATCHED:1:SEQ=2:ENTRY=3\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xb0cc76bf7e02df9ba0e05469f90bbe955163ca0eff73bf6ce854ee9f47018deb",
+      "emittedChildren": [
+        {
+          "txHash": "0x25768eee1bf53ecc0d3e5db293d80e3e3f9f3cb3c9daa2c1f01276b2a3905bce",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"fetch_status\\\":\\\"OK\\\",\\\"slice_sha256\\\":\\\"1b8ba2c955bb7e00ca7835858aacd2dff9d78ab7bb9642a12fd73d155aa55089\\\",\\\"verbatim_quote\\\":\\\"Logs use a binary Merkle Hash Tree for efficient auditing. The hashing algorithm is SHA-256 [FIPS.180-4]\\\",\\\"verdict\\\":\\\"SUPPORTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x25768eee1bf53ecc0d3e5db293d80e3e3f9f3cb3c9daa2c1f01276b2a3905bce"
+        },
+        {
+          "txHash": "0x29254c6c90d3627b81188f5c0cca2510d2e30473c9f4b471905733521e007332",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CONTINUE:LLR=-1175574:NEXT_CURSOR=2\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x29254c6c90d3627b81188f5c0cca2510d2e30473c9f4b471905733521e007332"
+        }
+      ]
+    },
+    {
+      "step": "case2_sample_3",
+      "caseId": "case2_certified_sound",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0x72f134b5887d05ed5341f7731b82b73f95e078586480c253b201f8c873ee1668",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SAMPLE_DISPATCHED:1:SEQ=3:ENTRY=6\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x72f134b5887d05ed5341f7731b82b73f95e078586480c253b201f8c873ee1668",
+      "emittedChildren": [
+        {
+          "txHash": "0x1178ece0b9b5749fdf0ee3f45e3383aa30089fc781ae181f22cbb398501efd7c",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"fetch_status\\\":\\\"OK\\\",\\\"slice_sha256\\\":\\\"0bc28639476829a71276cf61c441c0e55b6b1c24d1978fa21847a45b2f6ffd91\\\",\\\"verbatim_quote\\\":\\\"Request methods are considered \\\\\\\"safe\\\\\\\" if their defined semantics are essentially read-only; i.e., the client does not request, and does not expect, any state change on the origin server as a result of applying a safe method to a target resource.\\\",\\\"verdict\\\":\\\"SUPPORTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x1178ece0b9b5749fdf0ee3f45e3383aa30089fc781ae181f22cbb398501efd7c"
+        },
+        {
+          "txHash": "0x8c255015c5a1804f95b522e1d197e00f6db1f6f6fe3facb9b0067864fb4d76e5",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CONTINUE:LLR=-1763361:NEXT_CURSOR=3\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x8c255015c5a1804f95b522e1d197e00f6db1f6f6fe3facb9b0067864fb4d76e5"
+        }
+      ]
+    },
+    {
+      "step": "case2_sample_4",
+      "caseId": "case2_certified_sound",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0xfcff0b16c603ebc7b5007f9a45c72ff2212c4bdf7583da39a7e9f74b42d0ec05",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SAMPLE_DISPATCHED:1:SEQ=4:ENTRY=0\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xfcff0b16c603ebc7b5007f9a45c72ff2212c4bdf7583da39a7e9f74b42d0ec05",
+      "emittedChildren": [
+        {
+          "txHash": "0x44f38bb08824489c71edfeb129fdbe646bd895cd1322f63a7bc8e17607e5ce2f",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"fetch_status\\\":\\\"OK\\\",\\\"slice_sha256\\\":\\\"3687589170bf23156e440e377958d8c670dea653eb94894308a9ca7b33a5d5e4\\\",\\\"verbatim_quote\\\":\\\"ipad = the byte 0x36 repeated B times opad = the byte 0x5C repeated B times.\\\",\\\"verdict\\\":\\\"SUPPORTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x44f38bb08824489c71edfeb129fdbe646bd895cd1322f63a7bc8e17607e5ce2f"
+        },
+        {
+          "txHash": "0x5ed6eb4e7e7d6677373e9db09cda7166f282d1069c06182903d88e39ffcd8cd8",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"SETTLED:CERTIFIED_SOUND:LLR=-2351148\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x5ed6eb4e7e7d6677373e9db09cda7166f282d1069c06182903d88e39ffcd8cd8"
+        }
+      ]
+    },
+    {
+      "step": "case2_publisher_claim_winnings",
+      "caseId": "case2_certified_sound",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "claim_winnings",
+      "txHash": "0x606f456786936fc1bbaa5914a3e4cffc018bb1fc65b2e3491dd38066322724e0",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "200",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x606f456786936fc1bbaa5914a3e4cffc018bb1fc65b2e3491dd38066322724e0",
+      "emittedChildren": []
+    },
+    {
+      "step": "case3_submit_defective_corpus",
+      "caseId": "case3_rejected_defective",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "submit_corpus",
+      "txHash": "0x6eb8b2b639f953ea8b5930cb2fc071f1d41b1d4100911a9e6edd64cb6b099ab4",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SUBMITTED:3:cd175b11269dcc7c56395103d94a0d7996cd0ba60cc10ac88bd933487bdf130b\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x6eb8b2b639f953ea8b5930cb2fc071f1d41b1d4100911a9e6edd64cb6b099ab4",
+      "emittedChildren": [
+        {
+          "txHash": "0x755f9b4ad13ac5b9ce01d1a6258ddb2e93ab7d7ffbe55e224b3d305a7f668cac",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"reason_code\\\":\\\"OBJECTIVE_STANDARD\\\",\\\"verdict\\\":\\\"ACCEPTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x755f9b4ad13ac5b9ce01d1a6258ddb2e93ab7d7ffbe55e224b3d305a7f668cac"
+        },
+        {
+          "txHash": "0xabe8671dcf87e4ff2a5c7289e432d73e31601f63830e273bcf7414a5bcc54336",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CORPUS_OPENED:3\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xabe8671dcf87e4ff2a5c7289e432d73e31601f63830e273bcf7414a5bcc54336"
+        }
+      ]
+    },
+    {
+      "step": "case3_commit_audit",
+      "caseId": "case3_rejected_defective",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "commit_audit",
+      "txHash": "0x3a98d2f81c8f99f0d8ae61e3810752e4e9cb6bda7ca9a406888ee58c86c70b9d",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"AUDIT_COMMITTED:2\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x3a98d2f81c8f99f0d8ae61e3810752e4e9cb6bda7ca9a406888ee58c86c70b9d",
+      "emittedChildren": []
+    },
+    {
+      "step": "case3_reveal_seed",
+      "caseId": "case3_rejected_defective",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "reveal_audit_seed",
+      "txHash": "0x33112394587aa4c027f4ea451d05f2e61812238aa3a1b1b9f1bdd4271984cae2",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SEED_REVEALED:2:00e1fc17885fde3a:[1, 3, 2, 0]\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x33112394587aa4c027f4ea451d05f2e61812238aa3a1b1b9f1bdd4271984cae2",
+      "emittedChildren": []
+    },
+    {
+      "step": "case3_sample_1",
+      "caseId": "case3_rejected_defective",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0xf34b4820eb003de1cc2985cb663f4a46ea7b6452bb972e82a19a19214ed30f78",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SAMPLE_DISPATCHED:2:SEQ=1:ENTRY=1\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xf34b4820eb003de1cc2985cb663f4a46ea7b6452bb972e82a19a19214ed30f78",
+      "emittedChildren": [
+        {
+          "txHash": "0x0ff00c4e50bbd73df21811793d3fdfb45d9793aeda6c146bc4d020bc55e1959d",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"fetch_status\\\":\\\"OK\\\",\\\"slice_sha256\\\":\\\"bd12ae1b5a17856d019ee686dc8916d83991b4c4c705cf312ab285acfd3e6dcb\\\",\\\"verbatim_quote\\\":\\\"\\\",\\\"verdict\\\":\\\"UNSUPPORTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x0ff00c4e50bbd73df21811793d3fdfb45d9793aeda6c146bc4d020bc55e1959d"
+        },
+        {
+          "txHash": "0xeba413a525cd897b6a9e8a717d3b5084225e9b4347e4840b6be2f5df7506043d",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CONTINUE:LLR=1609438:NEXT_CURSOR=1\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xeba413a525cd897b6a9e8a717d3b5084225e9b4347e4840b6be2f5df7506043d"
+        }
+      ]
+    },
+    {
+      "step": "case3_sample_2",
+      "caseId": "case3_rejected_defective",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0x95f5ff66093322fd099111605b8e3b6d7e9609d7f8d4b14dfa8052be7943304c",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SAMPLE_DISPATCHED:2:SEQ=2:ENTRY=3\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x95f5ff66093322fd099111605b8e3b6d7e9609d7f8d4b14dfa8052be7943304c",
+      "emittedChildren": [
+        {
+          "txHash": "0x30590e62f3a2532dd9ffcd3b88f3c2efd189a1fb667c25f7ce2a48b147201930",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"fetch_status\\\":\\\"OK\\\",\\\"slice_sha256\\\":\\\"2d2ea0a04dc91b3fa8d23af9018ef64b017a3f0e6d073bd8e5c997e81d69d227\\\",\\\"verbatim_quote\\\":\\\"\\\",\\\"verdict\\\":\\\"UNSUPPORTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x30590e62f3a2532dd9ffcd3b88f3c2efd189a1fb667c25f7ce2a48b147201930"
+        },
+        {
+          "txHash": "0xadd449959c75bbec15f620cefc9b12425aec19fd01c8253748ee6aaab45dbd79",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"SETTLED:REJECTED_DEFECTIVE:LLR=3218876\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xadd449959c75bbec15f620cefc9b12425aec19fd01c8253748ee6aaab45dbd79"
+        }
+      ]
+    },
+    {
+      "step": "case3_auditor_claim_winnings",
+      "caseId": "case3_rejected_defective",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "claim_winnings",
+      "txHash": "0x875c07505024ab19ade8c5be325cebe7f4ee6c76bb715a35b996aca0376588c7",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "200",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x875c07505024ab19ade8c5be325cebe7f4ee6c76bb715a35b996aca0376588c7",
+      "emittedChildren": []
+    },
+    {
+      "step": "case4_submit_fallback_corpus",
+      "caseId": "case4_deterministic_fallbacks",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "submit_corpus",
+      "txHash": "0x7308cb4899cab76d5aeff984cf89208930ca64a4dba4dd8d32bd62978ec1e98d",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SUBMITTED:4:f753c1f71d47261a46f0d31dfd270caf66e061339426af8235b896649e633ade\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x7308cb4899cab76d5aeff984cf89208930ca64a4dba4dd8d32bd62978ec1e98d",
+      "emittedChildren": [
+        {
+          "txHash": "0xbea621b6e09320b9307a7d35845a82ed98c96ff1e976de1cc9945c7622790a9d",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"reason_code\\\":\\\"OBJECTIVE_STANDARD\\\",\\\"verdict\\\":\\\"ACCEPTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xbea621b6e09320b9307a7d35845a82ed98c96ff1e976de1cc9945c7622790a9d"
+        },
+        {
+          "txHash": "0xa0bfa92dfd14ecd01443f62e6e6925f3ba56df2327e2a393bde0871d81053085",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CORPUS_OPENED:4\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xa0bfa92dfd14ecd01443f62e6e6925f3ba56df2327e2a393bde0871d81053085"
+        }
+      ]
+    },
+    {
+      "step": "case4a_commit_unrevealed",
+      "caseId": "case4_deterministic_fallbacks",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "commit_audit",
+      "txHash": "0xc36cc89d2ce13de577d1f6f7c0055c00e265f1e649209c23a9b318bccd14d1b9",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"AUDIT_COMMITTED:3\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xc36cc89d2ce13de577d1f6f7c0055c00e265f1e649209c23a9b318bccd14d1b9",
+      "emittedChildren": []
+    },
+    {
+      "step": "case4a_expire_unrevealed",
+      "caseId": "case4_deterministic_fallbacks",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "expire_unrevealed_audit",
+      "txHash": "0x565f85bc06d7bf4f18990244070df7b16909a2b03eefc54a2e659213fb9629ae",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"UNREVEALED_EXPIRED:3:PENALTY=5:REFUND=45\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x565f85bc06d7bf4f18990244070df7b16909a2b03eefc54a2e659213fb9629ae",
+      "emittedChildren": []
+    },
+    {
+      "step": "case4b_commit_reopened",
+      "caseId": "case4_deterministic_fallbacks",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "commit_audit",
+      "txHash": "0x3788b46853200053296e9640985a943782c22a16899b7c803c23f921090357ae",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"AUDIT_COMMITTED:4\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x3788b46853200053296e9640985a943782c22a16899b7c803c23f921090357ae",
+      "emittedChildren": []
+    },
+    {
+      "step": "case4b_reveal_seed",
+      "caseId": "case4_deterministic_fallbacks",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "reveal_audit_seed",
+      "txHash": "0xd1c7a82d701b0e03c550a4f249cccfa5bbb70035d809da304a4c2c8b389ce2ad",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "ERROR",
+      "returnReadable": "REVEAL_DEADLINE_PASSED",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xd1c7a82d701b0e03c550a4f249cccfa5bbb70035d809da304a4c2c8b389ce2ad",
+      "emittedChildren": []
+    },
+    {
+      "step": "case4b_expire_late_audit",
+      "caseId": "case4_deterministic_fallbacks",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "expire_unrevealed_audit",
+      "txHash": "0x388efccd7a6a3db48a2ad4c9cd6cd1ec64c77118c72cf6e0715cdbfb3ec557ea",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"UNREVEALED_EXPIRED:4:PENALTY=5:REFUND=45\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x388efccd7a6a3db48a2ad4c9cd6cd1ec64c77118c72cf6e0715cdbfb3ec557ea",
+      "emittedChildren": []
+    },
+    {
+      "step": "case4_publisher_claim_antigrief",
+      "caseId": "case4_deterministic_fallbacks",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "claim_winnings",
+      "txHash": "0x1d4d7a289d3d567dfe14571a3b796707a8b0ca056e3c95720e641d4ffe5a0e3a",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "10",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x1d4d7a289d3d567dfe14571a3b796707a8b0ca056e3c95720e641d4ffe5a0e3a",
+      "emittedChildren": []
+    },
+    {
+      "step": "case4_auditor_withdraw_refund",
+      "caseId": "case4_deterministic_fallbacks",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "withdraw_refund",
+      "txHash": "0x66c60f94b547fb7f594763e6a199e379ef1f67babe67f9f9187f458ad6e5d881",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "90",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x66c60f94b547fb7f594763e6a199e379ef1f67babe67f9f9187f458ad6e5d881",
+      "emittedChildren": []
+    }
+  ],
+  "evidenceProbeSummary": {
+    "rfc_2104": {
+      "txHash": "0xe091d7d8e00eb5b0eb38a656c3f10f69b316014d620a243e955be4ed0ab9b7c4",
+      "url": "https://www.rfc-editor.org/rfc/rfc2104.txt",
+      "anchor": "0x36",
+      "note": "IETF RFC 2104 (HMAC, 1997)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "rfc_2104",
+        "preview": "sh outputs (L=16 for MD5, L=20 for\n   SHA-1).  The authentication key K can be of any length up to B, the\n   block length of the hash function.  Applications that use keys longer\n ",
+        "slice_len": 2200,
+        "slice_sha256": "5b91dd74d16ef49402215f8054d53d18c546d440ea22b8eae7fbf373441845b9",
+        "status": 200,
+        "total_len": 22297
+      },
+      "stderr": ""
+    },
+    "rfc_8259": {
+      "txHash": "0x7d0cabb2ed2342b03ac989d36f4e8a87a78bac97c6c3540de8c70009987fc21e",
+      "url": "https://www.rfc-editor.org/rfc/rfc8259.txt",
+      "anchor": "UTF-8",
+      "note": "IETF RFC 8259 (JSON, 2017)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "rfc_8259",
+        "preview": "  U+0008\n              %x66 /          ; f    form feed       U+000C\n              %x6E /          ; n    line feed       U+000A\n              %x72 /          ; r    carriage retur",
+        "slice_len": 2200,
+        "slice_sha256": "b59a81856f8497973b3950c494d35bd816a964ca417eaf3dc06fa0cd3e192560",
+        "status": 200,
+        "total_len": 28360
+      },
+      "stderr": ""
+    },
+    "rfc_6962": {
+      "txHash": "0xb7b00cb36d9a778fe568cac96c8b50ec00502dc3be134e123c6539444ec599ba",
+      "url": "https://www.rfc-editor.org/rfc/rfc6962.txt",
+      "anchor": "SHA-256",
+      "note": "IETF RFC 6962 (Certificate Transparency, 2013)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "rfc_6962",
+        "preview": " they then don't log) can be efficiently\n   detected and proved to the world at large.\n\n1.1.  Requirements Language\n\n   The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", \"SHAL",
+        "slice_len": 2200,
+        "slice_sha256": "6cc8a1f25bc4b795be6f6d41ff2a98cc4ac4a16b274f2273ac67e29979fe6f0d",
+        "status": 200,
+        "total_len": 55048
+      },
+      "stderr": ""
+    },
+    "wiki_merkle_2009": {
+      "txHash": "0x5f1a1fbce03a062ea219c2d75d4c5c9b3922835263016549f5c0c9439cb253b9",
+      "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&formatversion=2&revids=333954216",
+      "anchor": "hash tree",
+      "note": "Wikipedia Permanent Revision 333954216 (Merkle tree, Dec 2009)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "wiki_merkle_2009",
+        "preview": "[[Image:Hash tree.png|thumb|300px|right|A binary hash tree]]\n\nIn [[cryptography]] and [[computer science]] '''Hash trees''' or '''Merkle trees''' are a type of [[data structure]] w",
+        "slice_len": 2200,
+        "slice_sha256": "501a0a5b13c4d3daf5be82fc0f18ee1f1d37da76388d63b874be25a4fc51fc9a",
+        "status": 200,
+        "total_len": 6236
+      },
+      "stderr": ""
+    },
+    "github_prompt_injection": {
+      "txHash": "0xd0f8fb55f6ff42958eca77d447ae04be076fb40d2b48f6a31529d49cbbdc48a9",
+      "url": "https://raw.githubusercontent.com/liu00222/Open-Prompt-Injection/fbed5cca347488f88363790ae3ae97c56116da6a/OpenPromptInjection/attackers/IgnoreAttacker.py",
+      "anchor": "Ignore",
+      "note": "Third-party pinned GitHub commit containing real prompt-injection payload",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "github_prompt_injection",
+        "preview": "from .Attacker import Attacker\n\nclass IgnoreAttacker(Attacker):\n    def __init__(self, config, task):\n        super().__init__(config, task)\n\n    def inject(self, clean_data, idx, ",
+        "slice_len": 849,
+        "slice_sha256": "2d2ea0a04dc91b3fa8d23af9018ef64b017a3f0e6d073bd8e5c997e81d69d227",
+        "status": 200,
+        "total_len": 849
+      },
+      "stderr": ""
+    },
+    "archive_hashcash_2004": {
+      "txHash": "0x8cd243d8ffcc44183c3a874113743f9f4a30cd152f8befaf8a280c05c2f4aa7a",
+      "url": "https://web.archive.org/web/20040326113623id_/http://www.hashcash.org/faq/",
+      "anchor": "hashcash",
+      "note": "Archive.org raw id_ capture (Hashcash FAQ, 2004-03-26)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "archive_hashcash_2004",
+        "preview": "\n<html>\n<head>\n<title>Hashcash FAQ</title>\n</head>\n<body>\n\n<table width=\"100%\" border=\"0\">\n<tr valign=\"top\">\n<td>\n<table>\n<tr><td nowrap align=\"center\"><tt>hashcash.org</tt></td></",
+        "slice_len": 2200,
+        "slice_sha256": "73699dc7b0424dd6ab4e6c1cb204408318cd1994339ed6fef0d8766edaf23758",
+        "status": 200,
+        "total_len": 44242
+      },
+      "stderr": ""
+    },
+    "archive_hashcash_cdx": {
+      "txHash": "0xeec25635697f33d4f60752dc7c19d968b1508e4d281b9dec6ef4f0803e6ecc49",
+      "url": "https://web.archive.org/cdx/search/cdx?url=http://www.hashcash.org/faq/&output=json&filter=timestamp:20040326113623",
+      "anchor": "20040326113623",
+      "note": "Archive.org CDX capture existence index",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "anchor_found": true,
+        "label": "archive_hashcash_cdx",
+        "preview": "[[\"urlkey\",\"timestamp\",\"original\",\"mimetype\",\"statuscode\",\"digest\",\"length\"],\n[\"org,hashcash)/faq\",\"20040326113623\",\"http://www.hashcash.org:80/faq/\",\"text/html\",\"200\",\"OUGCC4JMBBS",
+        "slice_len": 213,
+        "slice_sha256": "9fe64865e123776312b46c76fc49cc0ad5c0f45d4f887a9b564b93b03106bb9c",
+        "status": 200,
+        "total_len": 213
+      },
+      "stderr": ""
+    }
+  }
+}

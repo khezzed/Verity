@@ -1,0 +1,9 @@
+[project]
+name = "verity-rla"
+version = "0.1.0"
+description = "Verity: Risk-Limiting Sequential Audit Protocol (Wald SPRT) for Citation & Claim Grounding on GenLayer"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
