@@ -8,8 +8,8 @@
     "deploy:studionet": "tsx scripts/deploy_and_seed.ts",
     "seed:case5": "tsx scripts/seed_case5.ts",
     "verify:proof": "tsx scripts/verify_proof.ts",
-    "test:unit": ".venv/Scripts/pytest tests -v",
-    "test:direct": ".venv/Scripts/pytest tests -v",
+    "test:unit": "node -e \"const {execFileSync}=require('child_process');const p=process.platform==='win32'?'.venv\\\\Scripts\\\\pytest.exe':'.venv/bin/pytest';execFileSync(p,['tests','-v'],{stdio:'inherit'})\"",
+    "test:direct": "npm run test:unit",
     "frontend:dev": "npm --prefix frontend run dev",
     "frontend:build": "npm --prefix frontend run build"
   },
