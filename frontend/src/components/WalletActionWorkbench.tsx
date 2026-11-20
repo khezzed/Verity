@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Wallet, Send, RefreshCw, ExternalLink, Clock, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { Wallet, Send, RefreshCw, ExternalLink, AlertCircle } from 'lucide-react';
 import type { CorpusRecord, AuditRecord, TrackedTx } from '../types/verity';
 import {
   connectStudioNetWallet,
@@ -11,8 +11,8 @@ import {
   STUDIONET_EXPLORER,
 } from '../lib/studionetClient';
 
-const TX_STORAGE_KEY = 'verity_tracked_txs_v1';
-const SALT_STORAGE_KEY = 'verity_commit_salts_v1';
+const TX_STORAGE_KEY = 'verity_tracked_txs_v2';
+const SALT_STORAGE_KEY = 'verity_commit_salts_v2';
 
 const DEFAULT_SAMPLE_MANIFEST = JSON.stringify(
   [
@@ -75,8 +75,7 @@ export const WalletActionWorkbench: React.FC<Props> = ({
     loadJsonStorage<Record<string, string>>(SALT_STORAGE_KEY, {})
   );
 
-  // Form states
-  const [activeTab, setActiveTab] = useState<'publish' | 'audit' | 'fallback'>('publish');
+  const [actionMode, setActionMode] = useState<'publish' | 'audit' | 'fallback'>('publish');
   const [title, setTitle] = useState('RFC Cryptography Verification Brief');
   const [rule, setRule] = useState(
     'A claim is SUPPORTED if the cited immutable RFC excerpt explicitly states or directly entails the stated technical definition or parameter.'
@@ -85,10 +84,11 @@ export const WalletActionWorkbench: React.FC<Props> = ({
   const [bondWei, setBondWei] = useState('20');
   const [entriesJson, setEntriesJson] = useState(DEFAULT_SAMPLE_MANIFEST);
 
-  const [targetCorpusId, setTargetCorpusId] = useState('1');
-  const [stakeWei, setStakeWei] = useState('10');
+  const openCorpora = corpora.filter((c) => c.status === 'OPEN_FOR_AUDIT');
+  const [targetCorpusId, setTargetCorpusId] = useState(() => String(openCorpora[0]?.corpus_id ?? 4));
+  const [stakeWei, setStakeWei] = useState('25');
   const [saltInput, setSaltInput] = useState(() => `verity-salt-${Math.floor(Math.random() * 1e9)}`);
-  const [targetAuditId, setTargetAuditId] = useState('1');
+  const [targetAuditId, setTargetAuditId] = useState(() => String(audits[audits.length - 1]?.audit_id ?? 1));
 
   useEffect(() => {
     localStorage.setItem(TX_STORAGE_KEY, JSON.stringify(trackedTxs.slice(0, 25)));
@@ -98,7 +98,6 @@ export const WalletActionWorkbench: React.FC<Props> = ({
     localStorage.setItem(SALT_STORAGE_KEY, JSON.stringify(savedSalts));
   }, [savedSalts]);
 
-  // Reload-resumable polling loop every 8s (rate-limit safe for StudioNet 30 req/min)
   useEffect(() => {
     const active = trackedTxs.filter(
       (t) => t.phase === 'submitted' || t.phase === 'pending' || t.phase === 'accepted'
@@ -106,26 +105,26 @@ export const WalletActionWorkbench: React.FC<Props> = ({
     if (active.length === 0) return;
 
     const timer = window.setInterval(async () => {
-      let anyFinalizedNow = false;
-      const updated = await Promise.all(
+      let anyFinalized = false;
+      const nextList = await Promise.all(
         trackedTxs.map(async (tx) => {
           if (tx.phase === 'finalized-success' || tx.phase === 'finalized-error') return tx;
-          const next = await pollTxPhase(tx.hash);
-          if (next.phase === 'finalized-success' || next.phase === 'finalized-error') {
-            anyFinalizedNow = true;
+          const res = await pollTxPhase(tx.hash);
+          if (res.phase === 'finalized-success' || res.phase === 'finalized-error') {
+            anyFinalized = true;
           }
           return {
             ...tx,
-            phase: next.phase,
-            consensusResult: next.consensusResult ?? tx.consensusResult,
-            childHashes: next.childHashes ?? tx.childHashes,
-            errorDetail: next.errorDetail ?? tx.errorDetail,
+            phase: res.phase,
+            consensusResult: res.consensusResult ?? tx.consensusResult,
+            childHashes: res.childHashes ?? tx.childHashes,
+            errorDetail: res.errorDetail ?? tx.errorDetail,
             updatedAt: Date.now(),
           };
         })
       );
-      setTrackedTxs(updated);
-      if (anyFinalizedNow) {
+      setTrackedTxs(nextList);
+      if (anyFinalized) {
         onRefreshLive().catch(() => undefined);
         if (account) {
           fetchAccountBalances(vaultAddress, account)
@@ -143,8 +142,7 @@ export const WalletActionWorkbench: React.FC<Props> = ({
     try {
       const addr = await connectStudioNetWallet();
       setAccount(addr);
-      const b = await fetchAccountBalances(vaultAddress, addr);
-      setBalances(b);
+      setBalances(await fetchAccountBalances(vaultAddress, addr));
     } catch (err: any) {
       setErrorMsg(err?.message || String(err));
     }
@@ -152,13 +150,12 @@ export const WalletActionWorkbench: React.FC<Props> = ({
 
   async function refreshAccount() {
     if (!account) return;
-    const b = await fetchAccountBalances(vaultAddress, account);
-    setBalances(b);
+    setBalances(await fetchAccountBalances(vaultAddress, account));
   }
 
   async function submitWrite(label: string, functionName: string, args: unknown[], value = 0n) {
     if (!account) {
-      setErrorMsg('Connect your StudioNet wallet first.');
+      setErrorMsg('Connect your StudioNet wallet before submitting transactions.');
       return;
     }
     setBusy(true);
@@ -173,13 +170,7 @@ export const WalletActionWorkbench: React.FC<Props> = ({
       });
       const now = Date.now();
       setTrackedTxs((prev) => [
-        {
-          hash: String(hash),
-          label,
-          phase: 'submitted',
-          submittedAt: now,
-          updatedAt: now,
-        },
+        { hash: String(hash), label, phase: 'submitted', submittedAt: now, updatedAt: now },
         ...prev,
       ]);
     } catch (err: any) {
@@ -194,11 +185,11 @@ export const WalletActionWorkbench: React.FC<Props> = ({
     try {
       JSON.parse(entriesJson);
     } catch {
-      setErrorMsg('Entries JSON is invalid JSON.');
+      setErrorMsg('Entries JSON could not be parsed. Fix syntax errors and try again.');
       return;
     }
     await submitWrite(
-      `submit_corpus("${title.slice(0, 26)}")`,
+      `submit_corpus("${title.slice(0, 28)}")`,
       'submit_corpus',
       [title, rule, profile, entriesJson, 3600n, 300n, 3600n],
       BigInt(bondWei || '20')
@@ -209,126 +200,119 @@ export const WalletActionWorkbench: React.FC<Props> = ({
     const commitHash = await sha256HexBrowser(saltInput);
     setSavedSalts((prev) => ({ ...prev, [`corpus_${targetCorpusId}`]: saltInput }));
     await submitWrite(
-      `commit_audit(corpus #${targetCorpusId})`,
+      `commit_audit(corpus ${targetCorpusId})`,
       'commit_audit',
       [BigInt(targetCorpusId), commitHash],
-      BigInt(stakeWei || '10')
+      BigInt(stakeWei || '25')
     );
   }
 
-  async function handleRevealSeed() {
-    await submitWrite(`reveal_audit_seed(audit #${targetAuditId})`, 'reveal_audit_seed', [
-      BigInt(targetAuditId),
-      saltInput,
-    ]);
-  }
-
-  async function handleStepSample() {
-    await submitWrite(`step_audit_sample(audit #${targetAuditId})`, 'step_audit_sample', [
-      BigInt(targetAuditId),
-    ]);
-  }
-
-  const openCorpora = corpora.filter((c) => c.status === 'OPEN_FOR_AUDIT');
-  const activeAudits = audits.filter((a) => a.status === 'COMMITTED' || a.status === 'ACTIVE');
-
   return (
-    <div className="panel workbench-panel">
-      <div className="panel-header">
-        <div>
-          <h3 className="panel-title">Interactive StudioNet Wallet Workbench (Chain 61999)</h3>
-          <p className="panel-subtitle">
-            Optional wallet connection for live end-to-end transactions: Publish Corpus, Commit/Reveal Audit Seed, Step Wald SPRT Samples, Claim Winnings, and Withdraw Refunds.
-          </p>
-        </div>
-
-        <div className="wallet-controls">
-          {account ? (
-            <>
-              <span className="wallet-pill mono">
-                <Wallet size={14} /> {shortHex(account, 6, 4)}
-              </span>
-              <button type="button" className="btn-secondary" onClick={refreshAccount}>
-                <RefreshCw size={14} /> Balances
+    <div className="instrument-sheet">
+      <div className="sheet-band">
+        <div className="workbench-bar">
+          <div>
+            <h2 className="section-heading">StudioNet wallet workbench</h2>
+            <p className="section-desc">
+              Execute live writes on Chain 61999. Transactions persist in local storage and poll every 8 seconds across reloads until finality.
+            </p>
+          </div>
+          <div className="action-row">
+            {account ? (
+              <>
+                <span className="code-hex" style={{ fontWeight: 600 }}>
+                  {shortHex(account, 6, 4)}
+                </span>
+                <button type="button" className="btn-secondary" onClick={refreshAccount}>
+                  <RefreshCw size={14} /> Refresh balances
+                </button>
+              </>
+            ) : (
+              <button type="button" className="btn-primary" onClick={handleConnect}>
+                <Wallet size={15} /> Connect MetaMask (Chain 61999)
               </button>
-            </>
-          ) : (
-            <button type="button" className="btn-primary" onClick={handleConnect}>
-              <Wallet size={15} /> Connect Wallet (StudioNet)
-            </button>
-          )}
-        </div>
-      </div>
-
-      {account && (
-        <div className="balance-strip">
-          <div className="balance-item">
-            <span className="mini-label">Claimable Winnings</span>
-            <span className="mono balance-amt accent-emerald">{balances.claimable_wei} wei</span>
-            <button
-              type="button"
-              className="btn-small"
-              disabled={busy || balances.claimable_wei === 0}
-              onClick={() => submitWrite('claim_winnings()', 'claim_winnings', [])}
-            >
-              Claim Winnings
-            </button>
-          </div>
-          <div className="balance-item">
-            <span className="mini-label">Refundable Balance</span>
-            <span className="mono balance-amt accent-amber">{balances.refundable_wei} wei</span>
-            <button
-              type="button"
-              className="btn-small"
-              disabled={busy || balances.refundable_wei === 0}
-              onClick={() => submitWrite('withdraw_refund()', 'withdraw_refund', [])}
-            >
-              Withdraw Refund
-            </button>
+            )}
           </div>
         </div>
-      )}
 
-      {errorMsg && (
-        <div className="alert-banner error">
-          <AlertTriangle size={15} /> {errorMsg}
-        </div>
-      )}
-
-      <div className="subtabs">
-        <button
-          type="button"
-          className={`subtab ${activeTab === 'publish' ? 'active' : ''}`}
-          onClick={() => setActiveTab('publish')}
-        >
-          1. Publish Corpus + Bond
-        </button>
-        <button
-          type="button"
-          className={`subtab ${activeTab === 'audit' ? 'active' : ''}`}
-          onClick={() => setActiveTab('audit')}
-        >
-          2. Commit / Reveal / Step SPRT ({openCorpora.length} open, {activeAudits.length} active)
-        </button>
-        <button
-          type="button"
-          className={`subtab ${activeTab === 'fallback' ? 'active' : ''}`}
-          onClick={() => setActiveTab('fallback')}
-        >
-          3. Deterministic Fallbacks
-        </button>
+        {account && (
+          <div className="balance-inline tabular">
+            <div className="balance-pair">
+              <span className="kv-label">Claimable winnings:</span>
+              <strong className="outcome-text certify">{balances.claimable_wei} wei</strong>
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={busy || balances.claimable_wei === 0}
+                onClick={() => submitWrite('claim_winnings()', 'claim_winnings', [])}
+              >
+                Claim
+              </button>
+            </div>
+            <div className="balance-pair">
+              <span className="kv-label">Refundable balance:</span>
+              <strong className="outcome-text pending">{balances.refundable_wei} wei</strong>
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={busy || balances.refundable_wei === 0}
+                onClick={() => submitWrite('withdraw_refund()', 'withdraw_refund', [])}
+              >
+                Withdraw refund
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      {activeTab === 'publish' && (
-        <form className="wb-form" onSubmit={handlePublishCorpus}>
-          <div className="form-grid-2">
-            <label className="field">
-              <span>Domain Title</span>
-              <input value={title} onChange={(e) => setTitle(e.target.value)} required />
-            </label>
-            <div className="form-grid-2">
+      <div className="sheet-band">
+        <div className="band-header">
+          <div className="segmented light" role="tablist" aria-label="Wallet action workflow">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={actionMode === 'publish'}
+              className={actionMode === 'publish' ? 'active' : ''}
+              onClick={() => setActionMode('publish')}
+            >
+              Publish corpus
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={actionMode === 'audit'}
+              className={actionMode === 'audit' ? 'active' : ''}
+              onClick={() => setActionMode('audit')}
+            >
+              Challenge and sample ({openCorpora.length} open)
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={actionMode === 'fallback'}
+              className={actionMode === 'fallback' ? 'active' : ''}
+              onClick={() => setActionMode('fallback')}
+            >
+              Timeout fallbacks
+            </button>
+          </div>
+        </div>
+
+        {errorMsg && (
+          <div className="error-inline" style={{ marginBottom: 14 }}>
+            <AlertCircle size={15} /> {errorMsg}
+          </div>
+        )}
+
+        {actionMode === 'publish' && (
+          <form className="wb-form" onSubmit={handlePublishCorpus}>
+            <div className="form-grid-3">
               <label className="field">
-                <span>SPRT Profile</span>
+                <span>Corpus title</span>
+                <input value={title} onChange={(e) => setTitle(e.target.value)} required />
+              </label>
+              <label className="field">
+                <span>SPRT profile</span>
                 <select value={profile} onChange={(e) => setProfile(e.target.value as any)}>
                   <option value="STANDARD_90">STANDARD_90 (4 pass / 2 fail)</option>
                   <option value="HIGH_ASSURANCE_95">HIGH_ASSURANCE_95 (6 pass / 2 fail)</option>
@@ -336,153 +320,190 @@ export const WalletActionWorkbench: React.FC<Props> = ({
                 </select>
               </label>
               <label className="field">
-                <span>Veracity Bond (wei, ≥ 2)</span>
-                <input value={bondWei} onChange={(e) => setBondWei(e.target.value)} type="number" min={2} required />
+                <span>Veracity bond (wei, minimum 2)</span>
+                <input type="number" min={2} value={bondWei} onChange={(e) => setBondWei(e.target.value)} required />
               </label>
             </div>
-          </div>
-          <label className="field">
-            <span>Grounding Rule (vetted up-front by GenLayer RuleGate)</span>
-            <input value={rule} onChange={(e) => setRule(e.target.value)} required />
-          </label>
-          <label className="field">
-            <span>Immutable Entries JSON (RFC, Wikipedia revids API, pinned GitHub 40-hex SHA, or Archive.org id_)</span>
-            <textarea rows={6} className="mono" value={entriesJson} onChange={(e) => setEntriesJson(e.target.value)} />
-          </label>
-          <button type="submit" className="btn-primary" disabled={busy || !account}>
-            <Send size={14} /> Submit Corpus & Trigger RuleGate
-          </button>
-        </form>
-      )}
-
-      {activeTab === 'audit' && (
-        <div className="wb-form">
-          <div className="form-grid-3">
             <label className="field">
-              <span>Corpus ID to Challenge</span>
-              <input value={targetCorpusId} onChange={(e) => setTargetCorpusId(e.target.value)} type="number" min={1} />
+              <span>Grounding rule (vetted up front by GenLayer RuleGate)</span>
+              <input value={rule} onChange={(e) => setRule(e.target.value)} required />
             </label>
             <label className="field">
-              <span>Auditor Stake (wei)</span>
-              <input value={stakeWei} onChange={(e) => setStakeWei(e.target.value)} type="number" min={1} />
+              <span>Immutable citation manifest JSON</span>
+              <textarea rows={7} value={entriesJson} onChange={(e) => setEntriesJson(e.target.value)} />
             </label>
-            <label className="field">
-              <span>Commit-Reveal Salt (auto-saved locally)</span>
-              <input className="mono" value={saltInput} onChange={(e) => setSaltInput(e.target.value)} />
-            </label>
-          </div>
-          <div className="action-row">
-            <button type="button" className="btn-primary" disabled={busy || !account} onClick={handleCommitAudit}>
-              1. Commit Audit Seed Hash + Stake
-            </button>
-          </div>
-
-          <hr className="divider" />
-
-          <div className="form-grid-2">
-            <label className="field">
-              <span>Audit ID to Reveal / Step</span>
-              <input value={targetAuditId} onChange={(e) => setTargetAuditId(e.target.value)} type="number" min={1} />
-            </label>
-            <div className="action-row align-end">
-              <button type="button" className="btn-secondary" disabled={busy || !account} onClick={handleRevealSeed}>
-                2. Reveal Salt → Freeze Fisher-Yates Order
+            <div className="action-row">
+              <button type="submit" className="btn-primary" disabled={busy || !account}>
+                <Send size={14} /> Submit corpus and run RuleGate
               </button>
-              <button type="button" className="btn-primary" disabled={busy || !account} onClick={handleStepSample}>
-                3. Step Next SPRT Sample (1 LLM Verdict)
+            </div>
+          </form>
+        )}
+
+        {actionMode === 'audit' && (
+          <div className="wb-form">
+            <div className="form-grid-3">
+              <label className="field">
+                <span>Open corpus ID</span>
+                <input type="number" min={1} value={targetCorpusId} onChange={(e) => setTargetCorpusId(e.target.value)} />
+              </label>
+              <label className="field">
+                <span>Auditor stake (wei)</span>
+                <input type="number" min={1} value={stakeWei} onChange={(e) => setStakeWei(e.target.value)} />
+              </label>
+              <label className="field">
+                <span>Commit-reveal salt (auto-saved locally)</span>
+                <input className="code-hex" value={saltInput} onChange={(e) => setSaltInput(e.target.value)} />
+              </label>
+            </div>
+            <div className="action-row">
+              <button type="button" className="btn-primary" disabled={busy || !account} onClick={handleCommitAudit}>
+                Commit seed hash and stake
+              </button>
+            </div>
+
+            <div className="form-grid-2" style={{ paddingTop: 14, borderTop: '1px solid var(--border)' }}>
+              <label className="field">
+                <span>Audit ID to reveal or sample</span>
+                <input type="number" min={1} value={targetAuditId} onChange={(e) => setTargetAuditId(e.target.value)} />
+              </label>
+              <div className="action-row" style={{ alignItems: 'flex-end' }}>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  disabled={busy || !account}
+                  onClick={() =>
+                    submitWrite(`reveal_audit_seed(audit ${targetAuditId})`, 'reveal_audit_seed', [
+                      BigInt(targetAuditId),
+                      saltInput,
+                    ])
+                  }
+                >
+                  Reveal salt
+                </button>
+                <button
+                  type="button"
+                  className="btn-primary"
+                  disabled={busy || !account}
+                  onClick={() =>
+                    submitWrite(`step_audit_sample(audit ${targetAuditId})`, 'step_audit_sample', [
+                      BigInt(targetAuditId),
+                    ])
+                  }
+                >
+                  Step next SPRT sample
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {actionMode === 'fallback' && (
+          <div className="wb-form">
+            <p className="section-desc">
+              Every waiting state exposes a permissionless deadline fallback so escrowed GEN can never lock indefinitely.
+            </p>
+            <div className="form-grid-2">
+              <label className="field">
+                <span>Corpus ID</span>
+                <input type="number" min={1} value={targetCorpusId} onChange={(e) => setTargetCorpusId(e.target.value)} />
+              </label>
+              <label className="field">
+                <span>Audit ID</span>
+                <input type="number" min={1} value={targetAuditId} onChange={(e) => setTargetAuditId(e.target.value)} />
+              </label>
+            </div>
+            <div className="action-row">
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={busy || !account}
+                onClick={() =>
+                  submitWrite(`reclaim_stalled_vetting(${targetCorpusId})`, 'reclaim_stalled_vetting', [
+                    BigInt(targetCorpusId),
+                  ])
+                }
+              >
+                Reclaim stalled vetting
+              </button>
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={busy || !account}
+                onClick={() =>
+                  submitWrite(`close_unchallenged_corpus(${targetCorpusId})`, 'close_unchallenged_corpus', [
+                    BigInt(targetCorpusId),
+                  ])
+                }
+              >
+                Close unchallenged corpus
+              </button>
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={busy || !account}
+                onClick={() =>
+                  submitWrite(`expire_unrevealed_audit(${targetAuditId})`, 'expire_unrevealed_audit', [
+                    BigInt(targetAuditId),
+                  ])
+                }
+              >
+                Expire unrevealed audit
+              </button>
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={busy || !account}
+                onClick={() =>
+                  submitWrite(`expire_stalled_audit(${targetAuditId})`, 'expire_stalled_audit', [
+                    BigInt(targetAuditId),
+                  ])
+                }
+              >
+                Expire stalled audit
               </button>
             </div>
           </div>
-        </div>
-      )}
-
-      {activeTab === 'fallback' && (
-        <div className="wb-form">
-          <p className="panel-subtitle">
-            Every waiting state has a deterministic permissionless fallback so funds can never lock forever if a party stalls or consensus drops.
-          </p>
-          <div className="form-grid-2">
-            <label className="field">
-              <span>Corpus ID</span>
-              <input value={targetCorpusId} onChange={(e) => setTargetCorpusId(e.target.value)} type="number" min={1} />
-            </label>
-            <label className="field">
-              <span>Audit ID</span>
-              <input value={targetAuditId} onChange={(e) => setTargetAuditId(e.target.value)} type="number" min={1} />
-            </label>
-          </div>
-          <div className="action-row wrap">
-            <button
-              type="button"
-              className="btn-secondary"
-              disabled={busy || !account}
-              onClick={() => submitWrite(`reclaim_stalled_vetting(#${targetCorpusId})`, 'reclaim_stalled_vetting', [BigInt(targetCorpusId)])}
-            >
-              Reclaim Stalled Vetting
-            </button>
-            <button
-              type="button"
-              className="btn-secondary"
-              disabled={busy || !account}
-              onClick={() => submitWrite(`close_unchallenged_corpus(#${targetCorpusId})`, 'close_unchallenged_corpus', [BigInt(targetCorpusId)])}
-            >
-              Close Unchallenged Corpus
-            </button>
-            <button
-              type="button"
-              className="btn-secondary"
-              disabled={busy || !account}
-              onClick={() => submitWrite(`expire_unrevealed_audit(#${targetAuditId})`, 'expire_unrevealed_audit', [BigInt(targetAuditId)])}
-            >
-              Expire Unrevealed Audit (10% Anti-Grief)
-            </button>
-            <button
-              type="button"
-              className="btn-secondary"
-              disabled={busy || !account}
-              onClick={() => submitWrite(`expire_stalled_audit(#${targetAuditId})`, 'expire_stalled_audit', [BigInt(targetAuditId)])}
-            >
-              Expire Stalled Audit (Grace Fallback)
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {trackedTxs.length > 0 && (
-        <div className="tx-tracker">
-          <div className="tx-tracker-head">
-            <span className="drawer-label">Reload-Resumable StudioNet Transaction Tracker (8s poll)</span>
-            <button type="button" className="btn-link" onClick={() => setTrackedTxs([])}>
-              Clear
+        <div className="sheet-band">
+          <div className="band-header" style={{ marginBottom: 8 }}>
+            <h2 className="section-heading">Submitted transaction monitor</h2>
+            <button type="button" className="btn-secondary" onClick={() => setTrackedTxs([])}>
+              Clear list
             </button>
           </div>
-          <div className="tx-tracker-list">
+          <div className="tx-list">
             {trackedTxs.map((t) => (
-              <div key={t.hash} className="tracked-tx-row">
-                <div className="tracked-tx-main">
-                  <span className={`tx-badge ${t.phase}`}>{t.phase}</span>
-                  <span className="mono">{t.label}</span>
-                  <a
-                    href={`${STUDIONET_EXPLORER}/transactions/${t.hash}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="tx-link mono"
+              <div key={t.hash} className="tx-list-row">
+                <div className="tx-list-left">
+                  <span
+                    className={`table-status ${
+                      t.phase === 'finalized-success'
+                        ? 'ok'
+                        : t.phase === 'finalized-error'
+                        ? 'err'
+                        : 'wait'
+                    }`}
                   >
-                    {shortHex(t.hash, 6, 4)} <ExternalLink size={12} />
-                  </a>
+                    {t.phase}
+                  </span>
+                  <span className="code-hex">{t.label}</span>
+                  {t.phase === 'accepted' && (
+                    <span className="kv-label">Appeal window open (waiting for finality callback)</span>
+                  )}
+                  {t.errorDetail && <span className="outcome-text reject">{t.errorDetail}</span>}
                 </div>
-                {t.phase === 'accepted' && (
-                  <div className="appeal-note">
-                    <Clock size={13} /> GenLayer native appeal window open — settlement waits for <code>emit(on=&quot;finalized&quot;)</code>.
-                  </div>
-                )}
-                {t.phase === 'finalized-success' && (
-                  <div className="finalized-note">
-                    <ShieldCheck size={13} /> Finalized ({t.consensusResult || 'MAJORITY_AGREE'})
-                    {t.childHashes && t.childHashes.length > 0 ? ` • ${t.childHashes.length} emitted callback(s)` : ''}
-                  </div>
-                )}
-                {t.errorDetail && <div className="error-note">{t.errorDetail}</div>}
+                <a
+                  href={`${STUDIONET_EXPLORER}/transactions/${t.hash}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="code-hex"
+                >
+                  {shortHex(t.hash, 6, 4)} <ExternalLink size={12} />
+                </a>
               </div>
             ))}
           </div>

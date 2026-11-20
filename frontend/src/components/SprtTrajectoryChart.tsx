@@ -15,9 +15,9 @@ export const SprtTrajectoryChart: React.FC<Props> = ({
   selectedEntryIdx,
   onSelectEntry,
 }) => {
-  const width = 760;
-  const height = 276;
-  const pad = { top: 28, right: 34, bottom: 42, left: 68 };
+  const width = 820;
+  const height = 270;
+  const pad = { top: 26, right: 32, bottom: 38, left: 64 };
   const plotW = width - pad.left - pad.right;
   const plotH = height - pad.top - pad.bottom;
 
@@ -37,9 +37,9 @@ export const SprtTrajectoryChart: React.FC<Props> = ({
 
   const maxStep = Math.max(4, points.length - 1, Math.min(totalEntries, points.length + 1));
   const yAbsMax = Math.max(
-    Math.abs(boundA) * 1.25,
-    Math.abs(boundB) * 1.25,
-    ...points.map((p) => Math.abs(p.llr) * 1.15)
+    Math.abs(boundA) * 1.28,
+    Math.abs(boundB) * 1.28,
+    ...points.map((p) => Math.abs(p.llr) * 1.18)
   );
   const yMin = -yAbsMax;
   const yMax = yAbsMax;
@@ -47,7 +47,10 @@ export const SprtTrajectoryChart: React.FC<Props> = ({
   const xOf = (step: number) => pad.left + (step / maxStep) * plotW;
   const yOf = (val: number) => pad.top + ((yMax - val) / (yMax - yMin)) * plotH;
 
-  const polylinePoints = points.map((p) => `${xOf(p.step).toFixed(1)},${yOf(p.llr).toFixed(1)}`).join(' ');
+  const pathD = points
+    .map((p, i) => `${i === 0 ? 'M' : 'L'} ${xOf(p.step).toFixed(1)} ${yOf(p.llr).toFixed(1)}`)
+    .join(' ');
+
   const yA = yOf(boundA);
   const yB = yOf(boundB);
   const y0 = yOf(0);
@@ -56,35 +59,43 @@ export const SprtTrajectoryChart: React.FC<Props> = ({
   const savedCount = Math.max(0, totalEntries - sampledCount);
   const savedPct = totalEntries > 0 ? Math.round((savedCount / totalEntries) * 100) : 0;
 
+  const strokeColor =
+    audit.status === 'SETTLED_CERTIFIED'
+      ? '#0D7A52'
+      : audit.status === 'SETTLED_REJECTED'
+      ? '#C4243B'
+      : '#1D4ED8';
+
   return (
-    <div className="panel">
-      <div className="panel-header">
+    <div className="sheet-band">
+      <div className="band-header">
         <div>
-          <h3 className="panel-title">Wald SPRT Log-Likelihood Trajectory (Λₜ)</h3>
-          <p className="panel-subtitle">
-            Exact scaled-integer sequential hypothesis test (scale = 10⁶). Click any sample node to inspect its verbatim evidence quote.
+          <h2 className="section-heading">Sequential probability ratio trajectory</h2>
+          <p className="section-desc">
+            Fixed-point Wald SPRT log-likelihood walk across Fisher-Yates draws. Select any plotted node to inspect its verified source passage below.
           </p>
         </div>
-        <div className="kpi-inline-group">
-          <div className="mini-stat">
-            <span className="mini-label">Samples Audited</span>
-            <span className="mini-value mono">
-              {sampledCount} / {totalEntries}
+
+        <div className="stat-readout-row">
+          <div className="stat-readout">
+            <span className="stat-readout-label">Sampled</span>
+            <span className="stat-readout-val">
+              {sampledCount} of {totalEntries}
             </span>
           </div>
-          <div className="mini-stat">
-            <span className="mini-label">Validator Work Saved</span>
-            <span className="mini-value mono accent-emerald">{savedPct}%</span>
+          <div className="stat-readout">
+            <span className="stat-readout-label">Work saved</span>
+            <span className="stat-readout-val outcome-text certify">{savedPct}%</span>
           </div>
-          <div className="mini-stat">
-            <span className="mini-label">Current LLR</span>
+          <div className="stat-readout">
+            <span className="stat-readout-label">Final LLR</span>
             <span
-              className={`mini-value mono ${
+              className={`stat-readout-val outcome-text ${
                 audit.llr_scaled <= audit.bound_certify
-                  ? 'accent-emerald'
+                  ? 'certify'
                   : audit.llr_scaled >= audit.bound_reject
-                  ? 'accent-crimson'
-                  : 'accent-amber'
+                  ? 'reject'
+                  : 'pending'
               }`}
             >
               {formatLlr(audit.llr_scaled)}
@@ -93,141 +104,176 @@ export const SprtTrajectoryChart: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="chart-wrap">
-        <svg viewBox={`0 0 ${width} ${height}`} className="sprt-svg" role="img" aria-label="Wald SPRT trajectory chart">
-          {/* Reject Zone (top) */}
+      <div className="sprt-canvas-wrap">
+        <svg
+          key={`audit-${audit.audit_id}-${audit.samples.length}`}
+          viewBox={`0 0 ${width} ${height}`}
+          className="sprt-svg"
+          role="img"
+          aria-label="Wald SPRT log-likelihood ratio trajectory"
+        >
+          {/* Upper reject corridor */}
           <rect
             x={pad.left}
             y={pad.top}
             width={plotW}
             height={Math.max(0, yA - pad.top)}
-            fill="rgba(244, 63, 94, 0.10)"
+            fill="#FDECEF"
           />
-          {/* Continue Zone (middle) */}
-          <rect
-            x={pad.left}
-            y={yA}
-            width={plotW}
-            height={Math.max(0, yB - yA)}
-            fill="rgba(245, 158, 11, 0.04)"
-          />
-          {/* Certify Zone (bottom) */}
+          {/* Lower certify corridor */}
           <rect
             x={pad.left}
             y={yB}
             width={plotW}
             height={Math.max(0, pad.top + plotH - yB)}
-            fill="rgba(16, 185, 129, 0.10)"
+            fill="#E8F7F0"
           />
 
-          {/* Zone labels */}
-          <text x={pad.left + 8} y={pad.top + 14} className="svg-zone-label reject">
-            REJECT / SLASH ZONE (Λ ≥ +{boundA.toFixed(2)})
+          {/* Corridor labels */}
+          <text x={pad.left + 10} y={pad.top + 17} fill="#991B2E" className="svg-zone-text">
+            Reject threshold (LLR ≥ +{boundA.toFixed(2)})
           </text>
-          <text x={pad.left + 8} y={pad.top + plotH - 8} className="svg-zone-label certify">
-            CERTIFY SOUND ZONE (Λ ≤ {boundB.toFixed(2)})
-          </text>
-
-          {/* Horizontal threshold & zero lines */}
-          <line x1={pad.left} y1={yA} x2={pad.left + plotW} y2={yA} stroke="#F43F5E" strokeWidth="1.5" strokeDasharray="6 4" />
-          <line x1={pad.left} y1={y0} x2={pad.left + plotW} y2={y0} stroke="#475569" strokeWidth="1" strokeDasharray="3 3" />
-          <line x1={pad.left} y1={yB} x2={pad.left + plotW} y2={yB} stroke="#10B981" strokeWidth="1.5" strokeDasharray="6 4" />
-
-          {/* Y axis labels */}
-          <text x={pad.left - 10} y={yA + 4} textAnchor="end" className="svg-axis-label reject">
-            +{boundA.toFixed(2)}
-          </text>
-          <text x={pad.left - 10} y={y0 + 4} textAnchor="end" className="svg-axis-label">
-            0.00
-          </text>
-          <text x={pad.left - 10} y={yB + 4} textAnchor="end" className="svg-axis-label certify">
-            {boundB.toFixed(2)}
+          <text x={pad.left + 10} y={pad.top + plotH - 9} fill="#0A5C3D" className="svg-zone-text">
+            Certify threshold (LLR ≤ {boundB.toFixed(2)})
           </text>
 
-          {/* X axis grid + ticks */}
+          {/* Vertical draw gridlines */}
           {Array.from({ length: maxStep + 1 }, (_, s) => {
             const x = xOf(s);
             return (
               <g key={s}>
-                <line x1={x} y1={pad.top} x2={x} y2={pad.top + plotH} stroke="rgba(148,163,184,0.09)" />
-                <text x={x} y={pad.top + plotH + 18} textAnchor="middle" className="svg-axis-label">
-                  {s === 0 ? 't=0' : `t=${s}`}
+                <line x1={x} y1={pad.top} x2={x} y2={pad.top + plotH} stroke="rgba(15, 28, 46, 0.07)" />
+                <text x={x} y={pad.top + plotH + 20} textAnchor="middle" className="svg-axis-text">
+                  {s === 0 ? 'Start' : `Draw ${s}`}
                 </text>
               </g>
             );
           })}
 
-          {/* Axes frame */}
+          {/* Stopping boundary lines & zero baseline */}
+          <line x1={pad.left} y1={yA} x2={pad.left + plotW} y2={yA} stroke="#C4243B" strokeWidth="1.4" strokeDasharray="5 4" />
+          <line x1={pad.left} y1={y0} x2={pad.left + plotW} y2={y0} stroke="rgba(15, 28, 46, 0.28)" strokeWidth="1" />
+          <line x1={pad.left} y1={yB} x2={pad.left + plotW} y2={yB} stroke="#0D7A52" strokeWidth="1.4" strokeDasharray="5 4" />
+
+          {/* Y axis ticks */}
+          <text x={pad.left - 10} y={yA + 4} textAnchor="end" fill="#C4243B" className="svg-axis-text">
+            +{boundA.toFixed(2)}
+          </text>
+          <text x={pad.left - 10} y={y0 + 4} textAnchor="end" className="svg-axis-text">
+            0.00
+          </text>
+          <text x={pad.left - 10} y={yB + 4} textAnchor="end" fill="#0D7A52" className="svg-axis-text">
+            {boundB.toFixed(2)}
+          </text>
+
+          {/* Outer hairline frame */}
           <rect
             x={pad.left}
             y={pad.top}
             width={plotW}
             height={plotH}
             fill="none"
-            stroke="rgba(148,163,184,0.22)"
+            stroke="rgba(15, 28, 46, 0.16)"
           />
 
-          {/* Random walk polyline */}
+          {/* Trajectory line */}
           {points.length > 1 && (
-            <polyline
+            <path
+              d={pathD}
               fill="none"
-              stroke={
-                audit.status === 'SETTLED_CERTIFIED'
-                  ? '#10B981'
-                  : audit.status === 'SETTLED_REJECTED'
-                  ? '#F43F5E'
-                  : '#F59E0B'
-              }
-              strokeWidth="2.6"
+              stroke={strokeColor}
+              strokeWidth="2.5"
               strokeLinejoin="round"
               strokeLinecap="round"
-              points={polylinePoints}
+              className="sprt-path"
             />
           )}
 
-          {/* Waypoint dots */}
+          {/* Waypoints */}
           {points.map((p) => {
             const cx = xOf(p.step);
             const cy = yOf(p.llr);
             const isSelected = p.entryIdx >= 0 && selectedEntryIdx === p.entryIdx;
             const fill =
               p.verdict === 'START'
-                ? '#94A3B8'
+                ? '#42526B'
                 : p.verdict === 'SUPPORTED'
-                ? '#10B981'
+                ? '#0D7A52'
                 : p.verdict === 'UNSUPPORTED'
-                ? '#F43F5E'
-                : '#F59E0B';
+                ? '#C4243B'
+                : '#9A5200';
             return (
               <g
                 key={p.step}
-                className={p.entryIdx >= 0 ? 'svg-node-clickable' : undefined}
+                className={p.entryIdx >= 0 ? 'svg-node-interactive' : undefined}
                 onClick={() => p.entryIdx >= 0 && onSelectEntry(p.entryIdx)}
+                role={p.entryIdx >= 0 ? 'button' : undefined}
+                tabIndex={p.entryIdx >= 0 ? 0 : undefined}
+                onKeyDown={(e) => {
+                  if (p.entryIdx >= 0 && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault();
+                    onSelectEntry(p.entryIdx);
+                  }
+                }}
               >
-                {isSelected && <circle cx={cx} cy={cy} r={11} fill="none" stroke="#F8FAFC" strokeWidth="1.6" />}
-                <circle cx={cx} cy={cy} r={p.step === 0 ? 4.5 : 6} fill={fill} stroke="#090C10" strokeWidth="2" />
-                {p.step > 0 && (
-                  <text
-                    x={cx}
-                    y={cy + (p.llr >= 0 ? -12 : 17)}
-                    textAnchor="middle"
-                    className="svg-node-tag"
-                  >
-                    #{p.entryIdx} ({p.llr >= 0 ? '+' : ''}
-                    {p.llr.toFixed(2)})
-                  </text>
+                {isSelected && (
+                  <circle cx={cx} cy={cy} r={11} fill="rgba(29, 78, 216, 0.14)" stroke="#1D4ED8" strokeWidth="1.5" />
                 )}
+                <circle
+                  className="node-core"
+                  cx={cx}
+                  cy={cy}
+                  r={p.step === 0 ? 4 : isSelected ? 6.5 : 5.5}
+                  fill={fill}
+                  stroke="#FFFFFF"
+                  strokeWidth="2"
+                />
+                {p.step > 0 && (() => {
+                  // Always place point labels on the clear side away from the ±2.20 dashed bounds
+                  let dy = -14;
+                  if (p.llr > 0 && p.llr < boundA) {
+                    dy = 21; // inside upper continue zone: place below node, clear of +boundA line
+                  } else if (p.llr >= boundA) {
+                    dy = -14; // crossed above +boundA: place above node
+                  } else if (p.llr < 0 && p.llr > boundB) {
+                    dy = -14; // inside lower continue zone: place above node, clear of -boundB line
+                  } else {
+                    dy = 21; // crossed below -boundB: place below node
+                  }
+                  // Clamp inside SVG vertical bounds
+                  const labelY = Math.max(pad.top + 16, Math.min(pad.top + plotH - 6, cy + dy));
+                  return (
+                    <text
+                      x={cx}
+                      y={labelY}
+                      textAnchor="middle"
+                      className="svg-node-label"
+                    >
+                      E{p.entryIdx} ({p.llr >= 0 ? '+' : ''}
+                      {p.llr.toFixed(2)})
+                    </text>
+                  );
+                })()}
               </g>
             );
           })}
         </svg>
       </div>
 
-      <div className="chart-footer mono">
-        <span>Profile: <strong>{audit.profile_id}</strong></span>
-        <span>Seed: <strong>{audit.seed_hex ? `${audit.seed_hex.slice(0, 14)}…` : 'Unrevealed'}</strong></span>
-        <span>Fisher-Yates Order: <strong>[{audit.sample_order.join(', ')}]</strong></span>
-        <span>Decision: <strong>{audit.terminal_decision || audit.status}</strong></span>
+      <div className="sprt-footnote">
+        <span>
+          Profile: <strong>{audit.profile_id}</strong>
+        </span>
+        <span>
+          Commit-reveal seed:{' '}
+          <strong className="code-hex">{audit.seed_hex ? `${audit.seed_hex.slice(0, 14)}...` : 'Unrevealed'}</strong>
+        </span>
+        <span>
+          Permutation order: <strong className="code-hex">[{audit.sample_order.join(', ')}]</strong>
+        </span>
+        <span>
+          Terminal outcome: <strong>{audit.terminal_decision || audit.status}</strong>
+        </span>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, ShieldAlert, CheckCircle2, XCircle, FastForward, HelpCircle } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import type { AuditRecord, CorpusRecord, SampleRecord } from '../types/verity';
 import { formatLlr, shortHex } from '../lib/studionetClient';
 
@@ -24,133 +24,151 @@ export const CorpusSamplingMatrix: React.FC<Props> = ({
   }
 
   const isSettled = Boolean(audit?.status?.startsWith('SETTLED_'));
+  const orderedIndices =
+    audit && audit.sample_order.length === corpus.entry_count
+      ? audit.sample_order
+      : corpus.entries.map((_, i) => i);
+
   const activeIdx =
     selectedEntryIdx !== null
       ? selectedEntryIdx
       : audit && audit.samples.length > 0
       ? audit.samples[0].entry_idx
       : 0;
+
   const activeEntry = corpus.entries[activeIdx];
   const activeSample = sampleByEntry.get(activeIdx);
+  const isInjectionSource = Boolean(activeEntry?.source_url.includes('Open-Prompt-Injection'));
 
   return (
-    <div className="panel">
-      <div className="panel-header">
+    <div className="evidence-split">
+      {/* Left: Compact Citation Draw Index */}
+      <div className="citation-index-col">
+        <div className="col-subhead">
+          <h2 className="section-heading">Citation index ({corpus.entry_count})</h2>
+          <span className="kv-label tabular">
+            {audit && audit.sample_order.length > 0 ? 'Ordered by Fisher-Yates draw' : 'Manifest order'}
+          </span>
+        </div>
+
+        <ul className="citation-list" role="listbox" aria-label="Corpus citations">
+          {orderedIndices.map((entryIdx, pos) => {
+            const entry = corpus.entries[entryIdx];
+            const sample = sampleByEntry.get(entryIdx);
+            const isInj = entry.source_url.includes('Open-Prompt-Injection');
+
+            let stateClass = 'pending';
+            let stateText = 'Not sampled';
+            if (sample) {
+              if (sample.verdict === 'SUPPORTED') {
+                stateClass = 'supported';
+                stateText = 'Supported';
+              } else if (sample.verdict === 'UNSUPPORTED') {
+                stateClass = 'unsupported';
+                stateText = isInj ? 'Injection blocked' : 'Unsupported';
+              } else {
+                stateClass = 'pending';
+                stateText = 'Insufficient';
+              }
+            } else if (isSettled) {
+              stateClass = 'skipped';
+              stateText = 'Skipped early';
+            }
+
+            return (
+              <li key={entryIdx}>
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={activeIdx === entryIdx}
+                  className={`citation-row-btn ${activeIdx === entryIdx ? 'selected' : ''}`}
+                  onClick={() => onSelectEntry(entryIdx)}
+                >
+                  <span className="citation-rank">
+                    {audit && audit.sample_order.length > 0 ? `#${pos + 1}` : `E${entryIdx}`}
+                  </span>
+                  <span className="citation-claim-short">{entry.claim}</span>
+                  <span className={`citation-state ${stateClass}`}>{stateText}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      {/* Right: Verbatim Evidence & Proof Monograph */}
+      <div className="monograph-col">
         <div>
-          <h3 className="panel-title">Corpus Sampling Matrix ({corpus.entry_count} Frozen Citations)</h3>
-          <p className="panel-subtitle">
-            Unbiased Fisher-Yates draws stop early once Wald SPRT crosses a statistical bound — skipping remaining entries without checking 100% on-chain.
+          <h2 className="section-heading">Entry {activeIdx} evidence record</h2>
+          <p className="monograph-claim" style={{ marginTop: 8 }}>
+            {activeEntry?.claim}
           </p>
         </div>
-        <span className="hash-pill mono" title={corpus.manifest_sha256}>
-          manifest_sha256: {shortHex(`0x${corpus.manifest_sha256}`, 8, 6)}
-        </span>
-      </div>
 
-      <div className="matrix-grid">
-        {corpus.entries.map((entry, idx) => {
-          const sample = sampleByEntry.get(idx);
-          const isInjectionSrc = entry.source_url.includes('Open-Prompt-Injection');
-          const orderPos = audit?.sample_order ? audit.sample_order.indexOf(idx) : -1;
-          let stateClass = 'entry-pending';
-          let badgeText = 'UNINSPECTED';
-          let Icon = HelpCircle;
-
-          if (sample) {
-            if (sample.verdict === 'SUPPORTED') {
-              stateClass = 'entry-supported';
-              badgeText = `T=${sample.seq} • SUPPORTED`;
-              Icon = CheckCircle2;
-            } else if (sample.verdict === 'UNSUPPORTED') {
-              stateClass = 'entry-unsupported';
-              badgeText = isInjectionSrc ? `T=${sample.seq} • INJECTION DEFENDED` : `T=${sample.seq} • UNSUPPORTED`;
-              Icon = isInjectionSrc ? ShieldAlert : XCircle;
-            } else {
-              stateClass = 'entry-insufficient';
-              badgeText = `T=${sample.seq} • INSUFFICIENT`;
-              Icon = HelpCircle;
-            }
-          } else if (isSettled) {
-            stateClass = 'entry-skipped';
-            badgeText = 'SKIPPED (EARLY STOP)';
-            Icon = FastForward;
-          }
-
-          return (
-            <button
-              key={idx}
-              type="button"
-              className={`matrix-card ${stateClass} ${activeIdx === idx ? 'selected' : ''}`}
-              onClick={() => onSelectEntry(idx)}
-            >
-              <div className="matrix-card-top">
-                <span className="mono entry-index">ENTRY #{idx}</span>
-                {orderPos >= 0 && <span className="mono draw-rank">draw #{orderPos + 1}</span>}
-              </div>
-              <div className="matrix-badge">
-                <Icon size={14} />
-                <span>{badgeText}</span>
-              </div>
-              <p className="matrix-claim-preview">{entry.claim}</p>
-            </button>
-          );
-        })}
-      </div>
-
-      {activeEntry && (
-        <div className="evidence-drawer">
-          <div className="drawer-row">
-            <span className="drawer-label">Claim #{activeIdx}</span>
-            <p className="drawer-claim">{activeEntry.claim}</p>
-          </div>
-
-          <div className="drawer-meta-grid">
-            <div>
-              <span className="drawer-label">Immutable Third-Party Source</span>
-              <a href={activeEntry.source_url} target="_blank" rel="noreferrer" className="source-link mono">
-                {activeEntry.source_url} <ExternalLink size={13} />
-              </a>
+        {activeEntry && (
+          <dl className="evidence-kv-list" style={{ margin: 0 }}>
+            <div className="evidence-kv full">
+              <dt className="kv-label">Immutable third-party source</dt>
+              <dd className="kv-value" style={{ margin: 0 }}>
+                <a href={activeEntry.source_url} target="_blank" rel="noreferrer" className="source-anchor-link code-hex">
+                  {activeEntry.source_url} <ExternalLink size={13} />
+                </a>
+              </dd>
             </div>
-            <div>
-              <span className="drawer-label">Deterministic Slice Anchor</span>
-              <span className="mono value-chip">{activeEntry.anchor || '(head 2200 chars)'}</span>
+            <div className="evidence-kv">
+              <dt className="kv-label">Deterministic slice anchor</dt>
+              <dd className="kv-value code-hex" style={{ margin: 0 }}>
+                {activeEntry.anchor || 'Leading 2,200 chars'}
+              </dd>
             </div>
-          </div>
-
-          {activeSample ? (
-            <div className="verdict-evidence-box">
-              <div className="verdict-evidence-head">
-                <span className={`status-pill ${activeSample.verdict.toLowerCase()}`}>
-                  {activeSample.verdict}
-                </span>
-                <span className="mono">fetch: {activeSample.fetch_status}</span>
-                <span className="mono">LLR Δ: {formatLlr(activeSample.llr_delta)}</span>
-                <span className="mono">
-                  slice_sha256: {activeSample.slice_sha256 ? `${activeSample.slice_sha256.slice(0, 18)}…` : '—'}
-                </span>
-              </div>
-              {activeSample.verbatim_quote ? (
-                <blockquote className="verbatim-quote mono">
-                  “{activeSample.verbatim_quote}”
-                  <footer>Verified verbatim inside each GenLayer validator’s independently fetched slice.</footer>
-                </blockquote>
-              ) : (
-                <div className="no-quote-note">
-                  {activeEntry.source_url.includes('Open-Prompt-Injection')
-                    ? 'Prompt-injection defense confirmed: validators ignored embedded "Ignore previous instructions" directives and returned UNSUPPORTED with empty quote.'
-                    : 'No supporting verbatim quote — claim contradicted or unsubstantiated by the immutable source excerpt.'}
+            <div className="evidence-kv">
+              <dt className="kv-label">Manifest SHA-256</dt>
+              <dd className="kv-value code-hex" style={{ margin: 0 }} title={corpus.manifest_sha256}>
+                {shortHex(`0x${corpus.manifest_sha256}`, 8, 6)}
+              </dd>
+            </div>
+            {activeSample && (
+              <>
+                <div className="evidence-kv">
+                  <dt className="kv-label">Validator slice SHA-256</dt>
+                  <dd className="kv-value code-hex" style={{ margin: 0 }} title={activeSample.slice_sha256}>
+                    {activeSample.slice_sha256 ? shortHex(`0x${activeSample.slice_sha256}`, 8, 6) : 'None'}
+                  </dd>
                 </div>
-              )}
-            </div>
+                <div className="evidence-kv">
+                  <dt className="kv-label">Finalized step delta</dt>
+                  <dd className="kv-value" style={{ margin: 0 }}>
+                    {activeSample.verdict} ({formatLlr(activeSample.llr_delta)} LLR, fetch {activeSample.fetch_status})
+                  </dd>
+                </div>
+              </>
+            )}
+          </dl>
+        )}
+
+        {activeSample ? (
+          activeSample.verbatim_quote ? (
+            <blockquote className="quote-monograph">
+              <p>“{activeSample.verbatim_quote}”</p>
+              <footer>Verified verbatim inside each validator&apos;s independently fetched slice.</footer>
+            </blockquote>
           ) : (
-            <div className="no-quote-note">
-              {isSettled
-                ? 'Skipped via Wald SPRT early stopping — statistical certainty was reached before this draw slot was needed.'
-                : 'Not yet sampled in an active audit.'}
+            <div className="verdict-note-box reject">
+              {isInjectionSource
+                ? 'Prompt-injection defense verified live: validators treated the source excerpt strictly as untrusted data, ignored embedded "Ignore previous instructions" directives, and finalized UNSUPPORTED.'
+                : 'Claim contradicted or unsubstantiated by the immutable source excerpt. Validators finalized UNSUPPORTED with an empty quote and incremented the SPRT log-likelihood ratio toward rejection.'}
             </div>
-          )}
-        </div>
-      )}
+          )
+        ) : (
+          <div className="verdict-note-box neutral">
+            {isSettled
+              ? 'This entry was skipped via Wald SPRT early stopping because statistical certainty crossed the terminal bound before this draw slot was required.'
+              : corpus.status === 'REJECTED_VAGUE'
+              ? 'This corpus was rejected up front by the RuleGate before sampling began; 100% of the publisher bond was returned to refundable balances.'
+              : 'This entry has not yet been sampled in an active audit.'}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
