@@ -6,7 +6,9 @@
   "scripts": {
     "probe:studionet": "tsx scripts/probe_studionet.ts",
     "deploy:studionet": "tsx scripts/deploy_and_seed.ts",
+    "seed:case5": "tsx scripts/seed_case5.ts",
     "verify:proof": "tsx scripts/verify_proof.ts",
+    "test:unit": ".venv/Scripts/pytest tests -v",
     "test:direct": ".venv/Scripts/pytest tests -v",
     "frontend:dev": "npm --prefix frontend run dev",
     "frontend:build": "npm --prefix frontend run build"

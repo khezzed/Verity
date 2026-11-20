@@ -15,7 +15,8 @@ const FILTER_OPTIONS = [
   { id: 'case1_rulegate_reject', label: 'RuleGate' },
   { id: 'case2_certified_sound', label: 'Certified sound' },
   { id: 'case3_rejected_defective', label: 'Rejected + injection' },
-  { id: 'case4_deterministic_fallbacks', label: 'Fallbacks' },
+  { id: 'case4_deterministic_fallbacks', label: 'Anti-grief' },
+  { id: 'case5_mixed_and_timeout', label: 'Mixed + timeout' },
 ];
 
 export const FinalizedLedgerTable: React.FC<Props> = ({
@@ -97,11 +98,19 @@ export const FinalizedLedgerTable: React.FC<Props> = ({
                     <td>
                       <span className="child-label">
                         <CornerDownRight size={13} />
-                        {idx === 0 ? 'Judge consensus' : 'Vault finality callback'}
+                        {(child as any).kind === 'eoa_value_transfer'
+                          ? 'EOA value transfer'
+                          : idx === 0
+                          ? 'Judge consensus'
+                          : 'Vault finality callback'}
                       </span>
                     </td>
                     <td className="code-hex">
-                      {idx === 0 ? 'CitationJudge' : 'AuditVault (on="finalized")'}
+                      {(child as any).kind === 'eoa_value_transfer'
+                        ? '_EvmRecipient.emit_transfer()'
+                        : idx === 0
+                        ? 'CitationJudge'
+                        : 'AuditVault (on="finalized")'}
                     </td>
                     <td>
                       <span className={`table-status ${child.executionResult === 'SUCCESS' ? 'ok' : 'err'}`}>

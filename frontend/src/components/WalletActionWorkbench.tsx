@@ -161,7 +161,7 @@ export const WalletActionWorkbench: React.FC<Props> = ({
     setBusy(true);
     setErrorMsg(null);
     try {
-      const client = createWalletClient(account);
+      const client = await createWalletClient(account);
       const hash = await client.writeContract({
         address: vaultAddress,
         functionName,

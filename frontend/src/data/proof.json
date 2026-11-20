@@ -1,8 +1,8 @@
 {
   "project": "Verity",
   "tagline": "Risk-Limiting Sequential Audit Protocol (Wald SPRT) for Citation & Claim Grounding on GenLayer",
-  "generatedAt": "2026-11-19T22:46:24.021Z",
-  "sourceCommit": "e6a6a9d98dbaf3647403b89481f7becd709d306f",
+  "generatedAt": "2026-11-20T06:37:32.106Z",
+  "sourceCommit": "72a23b7fcada3d28b17c14ba8e7f129ef11f2c8f",
   "network": {
     "name": "GenLayer StudioNet",
     "chainId": 61999,
@@ -14,6 +14,11 @@
     "deployer": "0x90D843C5aC324E7b9F009753631090Fee6971289",
     "publisher": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
     "auditor": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86"
+  },
+  "actorBalancesWei": {
+    "deployer": "999999999999999",
+    "publisher": "999999999999960",
+    "auditor": "999999999999990"
   },
   "contracts": {
     "evidenceProbe": {
@@ -43,10 +48,10 @@
   },
   "onChainState": {
     "protocolInfo": {
-      "audit_count": 4,
+      "audit_count": 5,
       "conservation_ok": true,
       "contract_balance_wei": 50,
-      "corpus_count": 4,
+      "corpus_count": 5,
       "judge_address": "0x24a968830FDdd1b3476a3E96BB6b3A379E85De1d",
       "profiles": {
         "HIGH_ASSURANCE_95": {
@@ -86,17 +91,17 @@
       "sprt_scale": 1000000,
       "total_auditor_stakes": 0,
       "total_claimable": 0,
-      "total_inbound_wei": 575,
-      "total_outbound_wei": 525,
+      "total_inbound_wei": 695,
+      "total_outbound_wei": 645,
       "total_publisher_bonds": 50,
       "total_refundable": 0
     },
     "judgeInfo": {
       "owner": "0x90D843C5aC324E7b9F009753631090Fee6971289",
-      "samples_judged": 6,
+      "samples_judged": 8,
       "vault_address": "0x470e9e6B51F2C1dB9Bb6db414716622E05BFE6eD",
       "vault_bound": true,
-      "vettings_completed": 4
+      "vettings_completed": 5
     },
     "corpora": [
       {
@@ -307,6 +312,51 @@
         "status": "OPEN_FOR_AUDIT",
         "vetting_deadline": 1795126129,
         "vetting_reason": "OBJECTIVE_STANDARD"
+      },
+      {
+        "active_audit_id": 5,
+        "audit_duration_sec": 240,
+        "audit_ids": [
+          5
+        ],
+        "bond_wei": 0,
+        "challenge_deadline": 1795159655,
+        "challenge_duration_sec": 3600,
+        "corpus_id": 5,
+        "created_at": 1795156010,
+        "domain_title": "Wikipedia & Archive.org Mixed-Integrity Audit Brief",
+        "entries": [
+          {
+            "anchor": "hash tree",
+            "claim": "The archived December 2009 Wikipedia revision describes hash trees (or Merkle trees) as a data structure used in cryptography and computer science.",
+            "source_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&formatversion=2&revids=333954216"
+          },
+          {
+            "anchor": "denial-of-service",
+            "claim": "The archived March 2004 Hashcash FAQ states that including a message body hash prevents race-conditions being used as a denial-of-service, and notes that PGP and S/MIME apply text canonicalization and MIME encoding.",
+            "source_url": "https://web.archive.org/web/20040326113623id_/http://www.hashcash.org/faq/"
+          },
+          {
+            "anchor": "UTF-8",
+            "claim": "RFC 8259 states that JSON text exchanged between systems not part of a closed ecosystem MUST be encoded using UTF-8.",
+            "source_url": "https://www.rfc-editor.org/rfc/rfc8259.txt"
+          },
+          {
+            "anchor": "hash tree",
+            "claim": "The archived December 2009 Wikipedia revision states that Merkle trees were first invented in 2019 exclusively for quantum key distribution.",
+            "source_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&formatversion=2&revids=333954216"
+          }
+        ],
+        "entry_count": 4,
+        "grounding_rule": "A claim is SUPPORTED if the cited immutable source excerpt explicitly states or directly entails the technical definition, parameter, or specification fact stated in the claim; it is UNSUPPORTED if the excerpt contradicts the claim, states different values, or lacks factual basis for it.",
+        "manifest_sha256": "508b8c4c6dba144b497fa706f3c4d16db0a98437d2c2a1ebd0a85744ce5f464b",
+        "min_audit_stake_wei": 30,
+        "profile_id": "STANDARD_90",
+        "publisher": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+        "reveal_window_sec": 300,
+        "status": "AUDIT_EXPIRED_REFUNDED",
+        "vetting_deadline": 1795156910,
+        "vetting_reason": "OBJECTIVE_STANDARD"
       }
     ],
     "audits": [
@@ -509,6 +559,63 @@
         "stake_wei": 0,
         "status": "EXPIRED_UNREVEALED",
         "terminal_decision": "EXPIRED_UNREVEALED"
+      },
+      {
+        "audit_deadline": 1795156388,
+        "audit_id": 5,
+        "auditor": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+        "bound_certify": -2197225,
+        "bound_reject": 2197225,
+        "commit_ts": 1795156103,
+        "corpus_id": 5,
+        "delta_fail": 1609438,
+        "delta_pass": -587787,
+        "grace_deadline": 1795156418,
+        "in_flight_entry_idx": 0,
+        "in_flight_retries": 0,
+        "in_flight_seq": 2,
+        "llr_scaled": -1175574,
+        "next_cursor": 2,
+        "profile_id": "STANDARD_90",
+        "reveal_deadline": 1795156403,
+        "salt_commit_hash": "85cb2c2f6eb2c930c8f8c50d0972e6b90c0f71d17154d9d4ec6e62be08064d13",
+        "salt_preimage": "verity-mixed-wiki-archive-2026",
+        "sample_order": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "samples": [
+          {
+            "entry_idx": 2,
+            "fetch_status": "OK",
+            "finalized_at": 1795156250,
+            "llr_after": -587787,
+            "llr_delta": -587787,
+            "seq": 1,
+            "slice_sha256": "bd12ae1b5a17856d019ee686dc8916d83991b4c4c705cf312ab285acfd3e6dcb",
+            "verbatim_quote": "JSON text exchanged between systems that are not part of a closed ecosystem MUST be encoded using UTF-8 [RFC3629].",
+            "verdict": "SUPPORTED"
+          },
+          {
+            "entry_idx": 0,
+            "fetch_status": "OK",
+            "finalized_at": 1795156347,
+            "llr_after": -1175574,
+            "llr_delta": -587787,
+            "seq": 2,
+            "slice_sha256": "501a0a5b13c4d3daf5be82fc0f18ee1f1d37da76388d63b874be25a4fc51fc9a",
+            "verbatim_quote": "In [[cryptography]] and [[computer science]] '''Hash trees''' or '''Merkle trees''' are a type of [[data structure]]",
+            "verdict": "SUPPORTED"
+          }
+        ],
+        "samples_counted": 2,
+        "seed_hex": "9b03a2d83269a9c8ef5918ccd7f993b5e96cbff2613c29f8acc15112b498220a",
+        "settled_at": 1795156491,
+        "stake_wei": 0,
+        "status": "SETTLED_EXPIRED_REFUNDED",
+        "terminal_decision": "EXPIRED_REFUNDED"
       }
     ]
   },
@@ -553,7 +660,19 @@
       "executionResult": "SUCCESS",
       "returnReadable": "5",
       "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xbe822898e3f269e8829e398b4325088eef4964eb10794b8f62a63d787de86e96",
-      "emittedChildren": []
+      "emittedChildren": [
+        {
+          "txHash": "0x0edea92e6a9c08fc46d90f3991baf51732864f5be5b5c210ae20ed0c82ca097c",
+          "kind": "eoa_value_transfer",
+          "toAddress": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "valueWei": 5,
+          "statusName": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "executionResult": "SUCCESS",
+          "returnReadable": "EOA transfer 5 wei -> 0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x0edea92e6a9c08fc46d90f3991baf51732864f5be5b5c210ae20ed0c82ca097c"
+        }
+      ]
     },
     {
       "step": "case1_submit_vague_corpus",
@@ -598,7 +717,19 @@
       "executionResult": "SUCCESS",
       "returnReadable": "20",
       "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xb5b52febfdb3e40919a4f7588bd47cbbbcf5a0bf1eeb351f2aa4a0814fe048b6",
-      "emittedChildren": []
+      "emittedChildren": [
+        {
+          "txHash": "0x18daf1ad9c3f5e46ab6a574c86e33a0da0163e630928f5cb4ac7a8e7f739f27e",
+          "kind": "eoa_value_transfer",
+          "toAddress": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "valueWei": 20,
+          "statusName": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "executionResult": "SUCCESS",
+          "returnReadable": "EOA transfer 20 wei -> 0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x18daf1ad9c3f5e46ab6a574c86e33a0da0163e630928f5cb4ac7a8e7f739f27e"
+        }
+      ]
     },
     {
       "step": "case2_submit_sound_corpus",
@@ -795,7 +926,19 @@
       "executionResult": "SUCCESS",
       "returnReadable": "200",
       "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x606f456786936fc1bbaa5914a3e4cffc018bb1fc65b2e3491dd38066322724e0",
-      "emittedChildren": []
+      "emittedChildren": [
+        {
+          "txHash": "0xa0218a8071706e0c94b5dc329670f53aa1a63e49d38edf3d196b08726f85c3e3",
+          "kind": "eoa_value_transfer",
+          "toAddress": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "valueWei": 200,
+          "statusName": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "executionResult": "SUCCESS",
+          "returnReadable": "EOA transfer 200 wei -> 0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xa0218a8071706e0c94b5dc329670f53aa1a63e49d38edf3d196b08726f85c3e3"
+        }
+      ]
     },
     {
       "step": "case3_submit_defective_corpus",
@@ -930,7 +1073,19 @@
       "executionResult": "SUCCESS",
       "returnReadable": "200",
       "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x875c07505024ab19ade8c5be325cebe7f4ee6c76bb715a35b996aca0376588c7",
-      "emittedChildren": []
+      "emittedChildren": [
+        {
+          "txHash": "0x38210eb63b556d0a1e4b342469ff4b37a0c0552c51a2af50a0cea5f1e2e339e8",
+          "kind": "eoa_value_transfer",
+          "toAddress": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+          "valueWei": 200,
+          "statusName": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "executionResult": "SUCCESS",
+          "returnReadable": "EOA transfer 200 wei -> 0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x38210eb63b556d0a1e4b342469ff4b37a0c0552c51a2af50a0cea5f1e2e339e8"
+        }
+      ]
     },
     {
       "step": "case4_submit_fallback_corpus",
@@ -1045,7 +1200,19 @@
       "executionResult": "SUCCESS",
       "returnReadable": "10",
       "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x1d4d7a289d3d567dfe14571a3b796707a8b0ca056e3c95720e641d4ffe5a0e3a",
-      "emittedChildren": []
+      "emittedChildren": [
+        {
+          "txHash": "0x2bbd60180edb71816b681166f2438b6b587bd840761f4aded5b3aabb173bb6f2",
+          "kind": "eoa_value_transfer",
+          "toAddress": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "valueWei": 10,
+          "statusName": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "executionResult": "SUCCESS",
+          "returnReadable": "EOA transfer 10 wei -> 0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x2bbd60180edb71816b681166f2438b6b587bd840761f4aded5b3aabb173bb6f2"
+        }
+      ]
     },
     {
       "step": "case4_auditor_withdraw_refund",
@@ -1059,7 +1226,220 @@
       "executionResult": "SUCCESS",
       "returnReadable": "90",
       "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x66c60f94b547fb7f594763e6a199e379ef1f67babe67f9f9187f458ad6e5d881",
+      "emittedChildren": [
+        {
+          "txHash": "0x954ae36cb50828500777f26e3f19bce22c608714ef00ccf06efef4d62d1f93c3",
+          "kind": "eoa_value_transfer",
+          "toAddress": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+          "valueWei": 90,
+          "statusName": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "executionResult": "SUCCESS",
+          "returnReadable": "EOA transfer 90 wei -> 0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x954ae36cb50828500777f26e3f19bce22c608714ef00ccf06efef4d62d1f93c3"
+        }
+      ]
+    },
+    {
+      "step": "case5_submit_mixed_corpus",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "submit_corpus",
+      "txHash": "0x032134c2cbc3d0aa2298d497777bd604efdc2ff33f1e7b689918b6d0ca656362",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SUBMITTED:5:508b8c4c6dba144b497fa706f3c4d16db0a98437d2c2a1ebd0a85744ce5f464b\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x032134c2cbc3d0aa2298d497777bd604efdc2ff33f1e7b689918b6d0ca656362",
+      "emittedChildren": [
+        {
+          "txHash": "0x44c72f24e73a607915b72ad3e4b143ffecad9842b03eaafa59005f094a44f1fa",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"reason_code\\\":\\\"OBJECTIVE_STANDARD\\\",\\\"verdict\\\":\\\"ACCEPTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x44c72f24e73a607915b72ad3e4b143ffecad9842b03eaafa59005f094a44f1fa"
+        },
+        {
+          "txHash": "0x88eac626bc4973a1948b7d25ed836103cba5fdedea34dbcf754db33017d9b14c",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CORPUS_OPENED:5\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x88eac626bc4973a1948b7d25ed836103cba5fdedea34dbcf754db33017d9b14c"
+        }
+      ]
+    },
+    {
+      "step": "case5_commit_audit",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "commit_audit",
+      "txHash": "0xbe116d35b3df61105d70024999e948458bdfcc05e99e900c9648b4e3088f69f3",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"AUDIT_COMMITTED:5\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xbe116d35b3df61105d70024999e948458bdfcc05e99e900c9648b4e3088f69f3",
       "emittedChildren": []
+    },
+    {
+      "step": "case5_reveal_seed",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "reveal_audit_seed",
+      "txHash": "0xec4859012facfae71b8e00c1437b3f296d1f4271e75d5238be5e68f102201328",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SEED_REVEALED:5:9b03a2d83269a9c8:[2, 0, 3, 1]\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xec4859012facfae71b8e00c1437b3f296d1f4271e75d5238be5e68f102201328",
+      "emittedChildren": []
+    },
+    {
+      "step": "case5_sample_1",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0xd06d5adb891a94aba41b85115e8e16e0c3ae161e9e085b87e3919c8cdef4ec6b",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SAMPLE_DISPATCHED:5:SEQ=1:ENTRY=2\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xd06d5adb891a94aba41b85115e8e16e0c3ae161e9e085b87e3919c8cdef4ec6b",
+      "emittedChildren": [
+        {
+          "txHash": "0xf6b4df141d3496d2c5345af0828e1368c8fe1f7a2bec3458aecdee48263175a2",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"fetch_status\\\":\\\"OK\\\",\\\"slice_sha256\\\":\\\"bd12ae1b5a17856d019ee686dc8916d83991b4c4c705cf312ab285acfd3e6dcb\\\",\\\"verbatim_quote\\\":\\\"JSON text exchanged between systems that are not part of a closed ecosystem MUST be encoded using UTF-8 [RFC3629].\\\",\\\"verdict\\\":\\\"SUPPORTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xf6b4df141d3496d2c5345af0828e1368c8fe1f7a2bec3458aecdee48263175a2"
+        },
+        {
+          "txHash": "0x5a0a1a03fc37944826ed68bf793a394fdf1091ac06935d3bef2e309586c1272f",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CONTINUE:LLR=-587787:NEXT_CURSOR=1\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x5a0a1a03fc37944826ed68bf793a394fdf1091ac06935d3bef2e309586c1272f"
+        }
+      ]
+    },
+    {
+      "step": "case5_sample_2",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0x1c9d65178e4385efbf15e3821212319bef88d4159a586ade47d4150d6673e732",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"SAMPLE_DISPATCHED:5:SEQ=2:ENTRY=0\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x1c9d65178e4385efbf15e3821212319bef88d4159a586ade47d4150d6673e732",
+      "emittedChildren": [
+        {
+          "txHash": "0x499e91b35abfdee498ffbab9c67d19ea79204408f28aab5574de7bb11bcaa99c",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"{\\\"fetch_status\\\":\\\"OK\\\",\\\"slice_sha256\\\":\\\"501a0a5b13c4d3daf5be82fc0f18ee1f1d37da76388d63b874be25a4fc51fc9a\\\",\\\"verbatim_quote\\\":\\\"In [[cryptography]] and [[computer science]] '''Hash trees''' or '''Merkle trees''' are a type of [[data structure]]\\\",\\\"verdict\\\":\\\"SUPPORTED\\\"}\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x499e91b35abfdee498ffbab9c67d19ea79204408f28aab5574de7bb11bcaa99c"
+        },
+        {
+          "txHash": "0x7db2402c1fbd729c005932dc7c96c110537270ddbd5afbcb4ef744565beafe3f",
+          "statusName": "FINALIZED",
+          "resultName": "MAJORITY_AGREE",
+          "executionResult": "SUCCESS",
+          "returnReadable": "\"CONTINUE:LLR=-1175574:NEXT_CURSOR=2\"",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x7db2402c1fbd729c005932dc7c96c110537270ddbd5afbcb4ef744565beafe3f"
+        }
+      ]
+    },
+    {
+      "step": "case5_sample_3",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "step_audit_sample",
+      "txHash": "0x919ab4daa6330a078ed9f0d6e09dd97ef15d7f4ceb03aab19b03a08713fe674c",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "ERROR",
+      "returnReadable": "AUDIT_DEADLINE_PASSED",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x919ab4daa6330a078ed9f0d6e09dd97ef15d7f4ceb03aab19b03a08713fe674c",
+      "emittedChildren": []
+    },
+    {
+      "step": "case5_expire_stalled_audit",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "expire_stalled_audit",
+      "txHash": "0x2d77a5c4ea27a81b48001b563b4762f96631c5d7c858493051f46dbb2a0097e6",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "\"AUDIT_EXPIRED_REFUNDED:5\"",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x2d77a5c4ea27a81b48001b563b4762f96631c5d7c858493051f46dbb2a0097e6",
+      "emittedChildren": []
+    },
+    {
+      "step": "case5_publisher_withdraw_refund",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "publisher",
+      "contract": "VerityAuditVault",
+      "method": "withdraw_refund",
+      "txHash": "0x86db7bd4328e52fddb263517b3dc974f2e052632b2ae2acb24c672268cf3fda4",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "60",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x86db7bd4328e52fddb263517b3dc974f2e052632b2ae2acb24c672268cf3fda4",
+      "emittedChildren": [
+        {
+          "txHash": "0x19890e28ddb06c9af6f1db0cbecafdf3d1acb116e4e5981cd2a692ab3ec0f7c3",
+          "kind": "eoa_value_transfer",
+          "toAddress": "0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "valueWei": 60,
+          "statusName": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "executionResult": "SUCCESS",
+          "returnReadable": "EOA transfer 60 wei -> 0x3a6b7b3e2fD0119b230987d2087dC986d9083974",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0x19890e28ddb06c9af6f1db0cbecafdf3d1acb116e4e5981cd2a692ab3ec0f7c3"
+        }
+      ]
+    },
+    {
+      "step": "case5_auditor_withdraw_refund",
+      "caseId": "case5_mixed_and_timeout",
+      "actor": "auditor",
+      "contract": "VerityAuditVault",
+      "method": "withdraw_refund",
+      "txHash": "0xaa64ad59a3b4f413b300d4520d324a5e4bbe27c7e5558f1949b3b213cba96522",
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "returnReadable": "60",
+      "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xaa64ad59a3b4f413b300d4520d324a5e4bbe27c7e5558f1949b3b213cba96522",
+      "emittedChildren": [
+        {
+          "txHash": "0xd79c3725870847be2bca50960f5bbb492fc66bf9a32dec76c91ee8bdc2d2dde1",
+          "kind": "eoa_value_transfer",
+          "toAddress": "0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+          "valueWei": 60,
+          "statusName": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "executionResult": "SUCCESS",
+          "returnReadable": "EOA transfer 60 wei -> 0xa4d02F279aBC274AcdcCD56C2874c486Fc873e86",
+          "explorerUrl": "https://explorer-studio.genlayer.com/transactions/0xd79c3725870847be2bca50960f5bbb492fc66bf9a32dec76c91ee8bdc2d2dde1"
+        }
+      ]
     }
   ],
   "evidenceProbeSummary": {

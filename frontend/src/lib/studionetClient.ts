@@ -21,14 +21,23 @@ export function createReadClient() {
   });
 }
 
-export function createWalletClient(accountAddress: `0x${string}`) {
-  return createClient({
+export async function createWalletClient(accountAddress: `0x${string}`) {
+  const eth = (window as unknown as { ethereum?: any }).ethereum;
+  if (!eth) {
+    throw new Error('No EIP-1193 browser wallet detected. Install MetaMask to execute StudioNet writes.');
+  }
+  const client = createClient({
     chain: {
       ...chains.studionet,
       rpcUrls: { default: { http: [STUDIONET_RPC] } },
     },
     account: accountAddress,
+    provider: eth,
   });
+  if (typeof (client as any).initializeConsensusSmartContract === 'function') {
+    await (client as any).initializeConsensusSmartContract();
+  }
+  return client;
 }
 
 function parseMaybeJson<T>(raw: unknown): T {

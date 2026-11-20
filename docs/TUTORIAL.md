@@ -69,13 +69,23 @@ Each finalized sample updates the scaled-integer log-likelihood ratio ($\text{sc
 
 ---
 
-## Step 4: Running Tests, Deploying, and Verifying Live Proofs
+## Step 4: Inspecting the Live Wald SPRT Instrument
 
-1. **Lint and run direct-mode contract tests:**
+Once deployed and seeded on StudioNet, reviewers can inspect every finalized case in the Verity web application without connecting a wallet. The interface pairs the interactive fixed-point Wald SPRT trajectory plot directly with the Fisher-Yates citation index and verbatim-quote monograph inside one unified workspace sheet:
+
+![Verity Swiss Archival Operate Workspace — Corpus #2 Certified Early in 4/10 Samples](images/verity-sprt-desktop.png)
+
+In Corpus #2 above, four randomized draws from a 10-citation RFC/Wikipedia brief (`Entry 5`, `Entry 3`, `Entry 6`, `Entry 0`) all finalized as `SUPPORTED` with verbatim quotes verified inside each validator's own copy, crossing the certify threshold ($\Lambda_4 = -2.351 \le -2.197$) and skipping the remaining 6 entries (**60% validator work saved**).
+
+---
+
+## Step 5: Running Tests, Deploying, and Verifying Live On-Chain Proofs
+
+1. **Lint and run mocked unit tests (`13` tests covering SPRT math, Fisher-Yates determinism, quote verification, and timeout fallbacks):**
    ```bash
    .venv/Scripts/genvm-lint check contracts/verity_citation_judge.py
    .venv/Scripts/genvm-lint check contracts/verity_audit_vault.py
-   npm run test:direct
+   npm run test:unit
    ```
 2. **Run the pre-flight StudioNet evidence probe:**
    ```bash
@@ -85,9 +95,9 @@ Each finalized sample updates the scaled-integer log-likelihood ratio ($\text{sc
    ```bash
    npm run deploy:studionet
    ```
-4. **Independently re-verify every finalized transaction and source hash (read-only):**
+4. **Independently re-verify on-chain source parity (`gen_getContractCode`) and every finalized transaction (parent writes, GenVM `emit(on="finalized")` callbacks, and Type 0 EOA value transfers):**
    ```bash
    npm run verify:proof
    ```
 
-Every finalized transaction hash, `slice_sha256`, verbatim quote, and live SPRT trajectory can then be inspected without a wallet in the deployed frontend, or exercised interactively by connecting a MetaMask wallet on StudioNet (Chain ID `61999`).
+Every finalized transaction hash, `slice_sha256`, verbatim quote, and live SPRT trajectory can then be inspected without a wallet at `https://verity-rla.vercel.app`, or exercised interactively by connecting MetaMask on StudioNet (Chain ID `61999`).
